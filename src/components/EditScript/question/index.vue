@@ -22,6 +22,11 @@
                 class="question"
                 @click="addAnswer"
             >add</div>
+
+            <div
+                class="question"
+                @click="deleteQ"
+            >delete</div>
         </div>
 
         <answer
@@ -35,7 +40,7 @@
 
 <script>
     import Answer from '@/components/EditScript/answer/index.vue';
-    import {mapActions} from 'vuex';
+    import {mapActions, mapGetters} from 'vuex';
 
     export default {
         name: "question",
@@ -56,10 +61,16 @@
                 this.stylesCoords = 'left: ' + this.question.coords.x + 'px; top: ' + this.question.coords.y + 'px;';
             }
         },
+        computed: {
+            ...mapGetters([
+                'currentScriptId'
+            ])
+        },
         methods: {
             ...mapActions([
                 'getAnswerById',
-                'updateQuestion'
+                'updateQuestion',
+                'deleteQuestion'
             ]),
             async setAnswers () {
                 let answer = {};
@@ -97,6 +108,16 @@
             },
             selectAnswer (id) {
                 this.$emit('click-answer', id);
+            },
+            deleteQ () {
+                let answer = confirm('Все связанные сущности будут удалены. Продолжить?');
+
+                if (answer) {
+                    this.deleteQuestion({
+                        questionId: this.question.id,
+                        scriptId: this.currentScriptId
+                    });
+                }
             }
         }
     }

@@ -10,24 +10,24 @@ export default new Vuex.Store({
         currentScriptId: 0,
         questions: [],
         questionsInCurrentScript: [],
-        answerStatuses: [],
-        answers: []
+        answers: [],
+        answerStatuses: []
     },
     getters: {
         scriptsList (state) {
             return state.scripts;
-        },
-        answerStatusesList (state) {
-            return state.answerStatuses;
-        },
-        answersList (state) {
-            return state.answers;
         },
         currentScriptId (state) {
             return state.currentScriptId;
         },
         questionsInCurrentScript (state) {
             return state.questionsInCurrentScript;
+        },
+        answersList (state) {
+            return state.answers;
+        },
+        answerStatusesList (state) {
+            return state.answerStatuses;
         }
     },
     mutations: {
@@ -148,6 +148,34 @@ export default new Vuex.Store({
         async updateAnswerStatus (context, data) {
             return axios.patch('http://localhost:3000/answer_statuses/' + data.id, data.data);
         },
+
+        /* delete */
+        async deleteQuestion (context, data) {
+            let script = await axios.get('http://localhost:3000/scripts/?id=' + data.scriptId);
+            let questions = script.data[0].questions.filter(e => e !== data.questionId);
+
+            let scriptUpdate = await axios.patch('http://localhost:3000/scripts/' + data.scriptId, {questions: questions});
+
+            if (200 == scriptUpdate.status) {
+                let answers = script.data[0].answers;
+
+                console.log(answers);
+
+                // let res = await axios.delete('http://localhost:3000/questions/' + data.questionId);
+                //
+                // if (200 == res.status) {
+                //     return true;
+                // }
+            }
+
+            return false;
+        },
+        // async deleteAnswer (context, id) {
+        //
+        // },
+        // async deleteAnswerStatus (context, id) {
+        //
+        // },
 
         /* setters */
         setCurrentScriptId (context, id) {

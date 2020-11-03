@@ -1,203 +1,216 @@
 {
-    "scripts": [
-        {
-            "name": "тест",
-            "questions": [
-                1,
-                2,
-                3,
-                6
-            ],
-            "id": 1
-        },
-        {
-            "name": "еще тест",
-            "questions": [
-                4,
-                5
-            ],
-            "id": 2
-        }
-    ],
-    "questions": [
-        {
-            "name": "Первый вопрос",
-            "text": "<p>lakjdsflasjdf</p>\n<h5>asdfasdfasdf</h5>\n",
-            "answers": [],
-            "id": 1,
-            "coords": {
-                "x": -77,
-                "y": 12
-            },
-            "asnwers": [
-                7,
-                8
-            ]
-        },
-        {
-            "name": "Второй вопрос",
-            "text": "<p>Второй вопрос<br>\nВторой вопрос<br>\n<br data-tomark-pass=\"\"></p>\n<h3>Второй вопрос</h3>\n<ol>\n<li>фывафыва</li>\n<li>фывафывафыва</li>\n<li>фывафывафыва</li>\n</ol>\n",
-            "answers": [],
-            "id": 2,
-            "coords": {
-                "x": -343,
-                "y": 165
-            },
-            "asnwers": [
-                10
-            ]
-        },
-        {
-            "name": "Второй вопрос",
-            "text": "<p>фывафывафыв<br>\nфывафыва<br>\nфыва</p>\n",
-            "answers": [],
-            "id": 3,
-            "coords": {
-                "x": 180,
-                "y": 64
-            },
-            "asnwers": [
-                9
-            ]
-        },
-        {
-            "name": "фывафыв",
-            "text": "<p>фывафыва</p>\n",
-            "answers": [],
-            "id": 4,
-            "coords": {
-                "x": -22,
-                "y": 79
-            },
-            "asnwers": [
-                11
-            ]
-        },
-        {
-            "name": "тест",
-            "text": "<p>фывафыва</p>\n",
-            "answers": [],
-            "id": 5,
-            "coords": {
-                "x": 68,
-                "y": 385
-            }
-        },
-        {
-            "name": "test",
-            "text": "<p>asdfasdf</p>\n",
-            "answers": [],
-            "id": 6,
-            "coords": {
-                "x": 39,
-                "y": 291
-            }
-        }
-    ],
-    "answers": [
-        {
-            "name": "тест",
-            "status": "1",
-            "bind_to": "2",
-            "text": "<p>asdfasdfasdf</p>\n",
-            "id": 1
-        },
-        {
-            "name": "тест",
-            "bind_to": "2",
-            "text": "<p>sdfasdfa</p>\n",
-            "id": 2
-        },
-        {
-            "name": "тест",
-            "bind_to": "2",
-            "text": "<p>sdfasdf</p>\n",
-            "id": 3
-        },
-        {
-            "name": "тест",
-            "status": "1",
-            "bind_to": "2",
-            "text": "<p>asdfasdfasdf</p>\n",
-            "id": 4
-        },
-        {
-            "name": "тест",
-            "bind_to": "2",
-            "text": "<p>asdfasdf<br>\nasdfasdf<br>\nasdfasdf</p>\n",
-            "id": 5
-        },
-        {
-            "name": "",
-            "text": "",
-            "id": 6
-        },
-        {
-            "name": "тест",
-            "status": "2",
-            "bind_to": "2",
-            "text": "<p>еуыфафыва<br>\nфывафывафыва</p>\n",
-            "id": 7,
-            "coords": {
-                "x": -286,
-                "y": 77
-            }
-        },
-        {
-            "name": "тестетс",
-            "status": "2",
-            "bind_to": "3",
-            "text": "<p>ыфвафывафы<br>\nвафылвоарфыва<br>\nэрявоалюмтапи</p>\n",
-            "id": 8,
-            "coords": {
-                "x": 126,
-                "y": 38
-            }
-        },
-        {
-            "name": "test",
-            "status": "2",
-            "text": "<p>ывафывафы<br>\nафыва<br>\nфывафывафыва</p>\n",
-            "id": 9,
-            "coords": {
-                "x": -19,
-                "y": 246
-            },
-            "bind_to": "6"
-        },
-        {
-            "name": "ыфва",
-            "status": "2",
-            "text": "<p>фывафывафывафыв</p>\n",
-            "id": 10,
-            "coords": {
-                "x": -443,
-                "y": 302
-            }
-        },
-        {
-            "name": "Привет",
-            "text": "<p>фывафыва</p>\n",
-            "id": 11,
-            "bind_to": "5",
-            "coords": {
-                "x": 26,
-                "y": 211
-            }
-        }
-    ],
-    "answer_statuses": [
-        {
-            "id": "1",
-            "text": "bad"
-        },
-        {
-            "id": "2",
-            "text": "good"
-        },
-        {
-            "text": "ugly",
-            "id": "P07_Dps"
-        }
-    ]
+  "scripts": [
+    {
+      "name": "тест",
+      "questions": [
+        1,
+        2,
+        3,
+        6
+      ],
+      "id": 1
+    },
+    {
+      "name": "еще тест",
+      "questions": [
+        4,
+        5
+      ],
+      "id": 2
+    }
+  ],
+  "questions": [
+    {
+      "name": "Первый вопрос",
+      "text": "<p>lakjdsflasjdf</p>\n<h5>asdfasdfasdf</h5>\n",
+      "answers": [],
+      "id": 1,
+      "coords": {
+        "x": -77,
+        "y": 12
+      },
+      "asnwers": [
+        7,
+        8
+      ]
+    },
+    {
+      "name": "Второй вопрос",
+      "text": "<p>Второй вопрос<br>\nВторой вопрос<br>\n<br data-tomark-pass=\"\"></p>\n<h3>Второй вопрос</h3>\n<ol>\n<li>фывафыва</li>\n<li>фывафывафыва</li>\n<li>фывафывафыва</li>\n</ol>\n",
+      "answers": [],
+      "id": 2,
+      "coords": {
+        "x": -273,
+        "y": 28
+      },
+      "asnwers": [
+        10
+      ]
+    },
+    {
+      "name": "Второй вопрос",
+      "text": "<p>фывафывафыв<br>\nфывафыва<br>\nфыва</p>\n",
+      "answers": [],
+      "id": 3,
+      "coords": {
+        "x": 148,
+        "y": -66
+      },
+      "asnwers": [
+        9
+      ]
+    },
+    {
+      "name": "фывафыв",
+      "text": "<p>фывафыва</p>\n",
+      "answers": [],
+      "id": 4,
+      "coords": {
+        "x": -22,
+        "y": 79
+      },
+      "asnwers": [
+        11
+      ]
+    },
+    {
+      "name": "тест",
+      "text": "<p>фывафыва</p>\n",
+      "answers": [],
+      "id": 5,
+      "coords": {
+        "x": 68,
+        "y": 385
+      }
+    },
+    {
+      "name": "тест",
+      "text": "<p>asdfasdf</p>\n",
+      "answers": [],
+      "id": 6,
+      "coords": {
+        "x": 121,
+        "y": -1
+      },
+      "asnwers": [
+        12
+      ]
+    }
+  ],
+  "answers": [
+    {
+      "name": "тест",
+      "status": "1",
+      "bind_to": "2",
+      "text": "<p>asdfasdfasdf</p>\n",
+      "id": 1
+    },
+    {
+      "name": "тест",
+      "bind_to": "2",
+      "text": "<p>sdfasdfa</p>\n",
+      "id": 2
+    },
+    {
+      "name": "тест",
+      "bind_to": "2",
+      "text": "<p>sdfasdf</p>\n",
+      "id": 3
+    },
+    {
+      "name": "тест",
+      "status": "1",
+      "bind_to": "2",
+      "text": "<p>asdfasdfasdf</p>\n",
+      "id": 4
+    },
+    {
+      "name": "тест",
+      "bind_to": "2",
+      "text": "<p>asdfasdf<br>\nasdfasdf<br>\nasdfasdf</p>\n",
+      "id": 5
+    },
+    {
+      "name": "",
+      "text": "",
+      "id": 6
+    },
+    {
+      "name": "тест",
+      "status": "2",
+      "bind_to": "2",
+      "text": "<p>еуыфафыва<br>\nфывафывафыва</p>\n",
+      "id": 7,
+      "coords": {
+        "x": -189,
+        "y": 35
+      }
+    },
+    {
+      "name": "тестетс",
+      "status": "2",
+      "bind_to": "3",
+      "text": "<p>ыфвафывафы<br>\nвафылвоарфыва<br>\nэрявоалюмтапи</p>\n",
+      "id": 8,
+      "coords": {
+        "x": 26,
+        "y": -20
+      }
+    },
+    {
+      "name": "test",
+      "status": "2",
+      "text": "<p>ывафывафы<br>\nафыва<br>\nфывафывафыва</p>\n",
+      "id": 9,
+      "coords": {
+        "x": 135,
+        "y": -25
+      },
+      "bind_to": "6"
+    },
+    {
+      "name": "ыфва",
+      "status": "2",
+      "text": "<p>фывафывафывафыв</p>\n",
+      "id": 10,
+      "coords": {
+        "x": -274,
+        "y": 71
+      }
+    },
+    {
+      "name": "Привет",
+      "text": "<p>фывафыва</p>\n",
+      "id": 11,
+      "bind_to": "5",
+      "coords": {
+        "x": 26,
+        "y": 211
+      }
+    },
+    {
+      "name": "asdfasdfasdf",
+      "status": "2",
+      "text": "<p>asdfasdfasdf</p>\n",
+      "id": 12,
+      "coords": {
+        "x": 122,
+        "y": 20
+      }
+    }
+  ],
+  "answer_statuses": [
+    {
+      "id": "1",
+      "text": "bad"
+    },
+    {
+      "id": "2",
+      "text": "good"
+    },
+    {
+      "text": "ugly",
+      "id": "P07_Dps"
+    }
+  ]
 }

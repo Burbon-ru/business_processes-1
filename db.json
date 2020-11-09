@@ -1,157 +1,82 @@
 {
   "scripts": [
     {
-      "name": "тест",
+      "name": "скрипт",
       "questions": [
-        4,
-        9,
-        10
+        1,
+        2,
+        3
       ],
-      "id": 2
-    },
-    {
-      "name": "lala",
-      "questions": [
-        11,
-        12
-      ],
-      "id": 3
+      "variables": [],
+      "id": 1
     }
   ],
   "questions": [
     {
-      "name": "фывафыв",
-      "text": "<p>sdfasdfasdf<br>\nasdfasdf<br>\nasdfasdfasdasdff<br>\nasdfasdf<br>\nasdfasdf</p>\n",
-      "id": 4,
-      "coords": {
-        "x": 473,
-        "y": 25
-      },
+      "name": "Поприветствовать",
+      "text": "<p>Вам удобно разговаривать?</p>\n",
       "answers": [
-        11,
-        16
-      ]
-    },
-    {
-      "name": "test",
-      "text": "<p>asdfasdf<br>\nasdfasdf</p>\n",
-      "answers": [
-        17,
-        18
+        1,
+        2
       ],
-      "id": 9,
+      "id": 1,
       "coords": {
-        "x": 556,
-        "y": 345
+        "x": 405,
+        "y": 8
       }
     },
     {
-      "name": "тест",
-      "text": "<p>asdfasdf</p>\n",
+      "name": "Пока",
+      "text": "<p>Ок, не буду вас отвлекать</p>\n",
       "answers": [],
-      "id": 10,
+      "id": 2,
       "coords": {
-        "x": 481,
-        "y": 612
+        "x": 45,
+        "y": 379
       }
     },
     {
-      "name": "Привет",
-      "text": "",
-      "answers": [
-        21
-      ],
-      "id": 11,
-      "coords": {
-        "x": 364,
-        "y": 52
-      }
-    },
-    {
-      "name": "тест",
-      "text": "",
+      "name": "Тогда для вас предложение",
+      "text": "<p>Тогда для вас предложение от которого нельзя отказаться</p>\n",
       "answers": [],
-      "id": 12,
+      "id": 3,
       "coords": {
-        "x": 257,
-        "y": 647
+        "x": 586,
+        "y": 367
       }
     }
   ],
   "answers": [
     {
-      "name": "Привет",
-      "text": "<p>фывафыва</p>\n",
-      "id": 11,
-      "bind_to": "9",
-      "coords": {
-        "x": 93,
-        "y": 197
-      },
-      "status": "2"
-    },
-    {
-      "name": "Привет",
-      "status": "P07_Dps",
-      "text": "<p>asdfasdfasdf<br>\nasdfasdfasdf<br>\nasdfasdfasdfasdf<br>\nasdfasdfasdf</p>\n",
-      "id": 16,
-      "coords": {
-        "x": 845,
-        "y": 190
-      },
-      "bind_to": "9"
-    },
-    {
-      "name": "test",
+      "name": "Нет, не удобно",
       "status": "1",
-      "text": "<p>asdfasdf<br>\nasdfasdf</p>\n",
-      "id": 17,
+      "text": "<p>Нет, не удобно</p>\n",
+      "id": 1,
       "coords": {
-        "x": 929,
-        "y": 458
+        "x": 237,
+        "y": 184
       },
-      "bind_to": "10"
+      "bind_to": "2"
     },
     {
-      "name": "test",
-      "status": "1",
-      "text": "<p>asdfasdf<br>\nasdfasdfasdf</p>\n",
-      "id": 18,
+      "name": "Да, удобно",
+      "text": "<p>Да, удобно</p>\n",
+      "id": 2,
       "coords": {
-        "x": 145,
-        "y": 492
+        "x": 887,
+        "y": 152
       },
-      "bind_to": "10"
+      "bind_to": "3"
+    }
+  ],
+  "variables": [
+    {
+      "name": "имя",
+      "id": 2
     },
     {
-      "name": "тест",
-      "status": "2",
-      "text": "",
-      "id": 19,
-      "coords": {
-        "x": 580,
-        "y": 417
-      }
-    },
-    {
-      "name": "тест",
-      "text": "",
-      "id": 20,
-      "coords": {
-        "x": 598,
-        "y": 476
-      }
-    },
-    {
-      "name": "тест",
-      "status": "2",
-      "text": "<p>ыффывафыва</p>\n",
-      "id": 21,
-      "coords": {
-        "x": 573,
-        "y": 143
-      },
-      "bind_to": "12"
+      "name": "машина",
+      "id": 3
     }
   ],
   "answer_statuses": [

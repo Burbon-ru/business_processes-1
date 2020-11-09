@@ -12,11 +12,16 @@ export default new Vuex.Store({
         questionsInCurrentScript: [],
         answers: [],
         answerStatuses: [],
-        lookingPool: 0
+        lookingPool: 0,
+        variables: [],
+        variablesInCurrentScript: [],
     },
     getters: {
         scriptsList (state) {
             return state.scripts;
+        },
+        variablesInCurrentScript (state) {
+            return state.variablesInCurrentScript;
         },
         currentScriptId (state) {
             return state.currentScriptId;
@@ -39,6 +44,12 @@ export default new Vuex.Store({
         addItemScripts (state, script) {
             state.scripts.push(script);
         },
+        setVariablesList (state, variables) {
+            state.variables = variables;
+        },
+        addItemVariables (state, variable) {
+            state.variables.push(variable);
+        },
         addQuestion (state, question) {
             state.questions.push(question);
         },
@@ -57,6 +68,9 @@ export default new Vuex.Store({
         setQuestionsInCurrentScriptInState (state, questions) {
             state.questionsInCurrentScript = questions;
         },
+        setVariablesInCurrentScriptInState (state, variables) {
+            state.variablesInCurrentScript = variables;
+        },
         lockUi: state => state.lookingPool++,
         unlockUi: state => state.lookingPool--
     },
@@ -64,7 +78,7 @@ export default new Vuex.Store({
         /* creators */
         async createScript (context, name) {
             try {
-                const scriptData = {name: name, questions: []};
+                const scriptData = {name: name, questions: [], variables: []};
                 let script = await axios.post('http://localhost:3000/scripts', scriptData);
                 context.commit('addItemScripts', script.data);
             } catch (error) {
@@ -74,10 +88,10 @@ export default new Vuex.Store({
         },
         async createQuestion (context, data) {
             try {
-                let script = await axios.post('http://localhost:3000/questions', data);
-                context.commit('addQuestion', script.data);
+                let question = await axios.post('http://localhost:3000/questions', data);
+                context.commit('addQuestion', question.data);
 
-                return script;
+                return question;
             } catch (error) {
                 console.error(error);
                 return error;
@@ -92,6 +106,18 @@ export default new Vuex.Store({
                 context.commit('addAnswerStatus', created.data);
 
                 return created.status;
+            } catch (error) {
+                console.error(error);
+                return error;
+            }
+        },
+        async createVariable (context, {name}) {
+            try {
+                const VariableData = {name: name};
+                let variable = await axios.post('http://localhost:3000/variables', VariableData);
+                context.commit('addItemVariables', variable.data);
+
+                return variable;
             } catch (error) {
                 console.error(error);
                 return error;
@@ -227,6 +253,24 @@ export default new Vuex.Store({
             }
 
             context.commit('setQuestionsInCurrentScriptInState', questions);
+        },
+        async setVariablesInCurrentScript (context) {
+            let script = await this._actions.getScriptById[0](this.getters.currentScriptId);
+            let curScript = script.data[0];
+
+            let variable = {};
+            let variables = [];
+
+            for (let variableId of curScript.variables) {
+                variable = await getVariableById(variableId);
+                variables.push(variable.data[0]);
+            }
+
+            context.commit('setVariablesInCurrentScriptInState', variables);
         }
     }
 });
+
+function getVariableById (id) {
+    return axios.get('http://localhost:3000/variables/?id=' + id);
+}

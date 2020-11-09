@@ -87,8 +87,7 @@
         computed: {
             ...mapGetters([
                 'currentScriptId',
-                'questionsInCurrentScript',
-                'isUiLocked'
+                'questionsInCurrentScript'
             ])
         },
         mounted () {
@@ -105,7 +104,6 @@
         methods: {
             ...mapActions([
                 'getScriptById',
-                'getQuestionById',
                 'setCurrentScriptId',
                 'setQuestionsInCurrentScript'
             ]),

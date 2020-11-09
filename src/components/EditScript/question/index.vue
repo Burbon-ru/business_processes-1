@@ -76,7 +76,6 @@
 <script>
     import Answer from '@/components/EditScript/answer/index.vue';
     import {mapActions, mapGetters} from 'vuex';
-
     export default {
         name: "question",
         props: ['currentQuestion', 'questionId'],
@@ -102,16 +101,13 @@
         async mounted () {
             this.question = await this.getQuestionById(this.questionId);
             this.question = this.question.data[0];
-
             this.answers = await this.getAnswersOfQuestionById(this.questionId);
-
             for (let answer of this.answers) {
                 this.pathsCoords.push({
                     id: answer.id,
                     value: `M ${this.question.coords.x} ${this.question.coords.y} L ${answer.coords.x} ${answer.coords.y}`
                 });
             }
-
             if (this.question.coords) {
                 this.stylesCoords = `translate(${this.question.coords.x}, ${this.question.coords.y})`;
             }
@@ -149,7 +145,6 @@
                             }
                         }
                     });
-
                     this.question = updatedQuestion.data;
                 } catch (e) {
                     console.error(e);
@@ -157,7 +152,6 @@
             },
             deleteQ () {
                 let answer = confirm('Все связанные сущности будут удалены. Продолжить?');
-
                 if (answer) {
                     this.deleteQuestion({
                         questionId: this.question.id,
@@ -175,12 +169,10 @@
             drag ({offsetX, offsetY}) {
                 this.dragOffsetX = offsetX - this.square.x;
                 this.dragOffsetY = offsetY - this.square.y;
-
                 this.$refs.box.addEventListener('mousemove', this.move);
             },
             drop () {
                 this.dragOffsetX = this.dragOffsetY = null;
-
                 this.$refs.box.removeEventListener('mousemove', this.move);
             },
             move ({offsetX, offsetY}) {
@@ -191,7 +183,6 @@
                         }
                     }
                 }
-
                 this.stylesCoords = `translate(${offsetX - this.square.x}, ${offsetY - this.square.y})`;
             }
         }
@@ -208,11 +199,9 @@
             background-color: aqua;
         }
     }
-
     .question_drag {
         display: inline-block;
     }
-
     .handle {
         fill: dodgerblue;
     }

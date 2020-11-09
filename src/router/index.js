@@ -21,6 +21,11 @@ const routes = [
         component: () => import('../views/EditScript.vue')
     },
     {
+        path:'/scripts/variables/:id',
+        name: 'Variables',
+        component: () => import('../views/Variables.vue')
+    },
+    {
         path:'/scripts/run/:id',
         name: 'RunScript',
         component: () => import('../views/RunScript.vue')

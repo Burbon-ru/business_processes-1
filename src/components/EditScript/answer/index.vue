@@ -95,7 +95,6 @@
                     });
 
                     this.answer = updatedAnswer.data;
-
                     this.$emit('answer-change');
                 } catch (e) {
                     console.error(e);

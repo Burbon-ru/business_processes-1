@@ -5,7 +5,7 @@
         <input
             type="text"
             v-model="value"
-            @change="saveValue"
+            @input="saveValue"
         />
     </div>
 </template>
@@ -22,7 +22,7 @@
         }),
         methods: {
             async saveValue () {
-                await delay(2);
+                await delay(1);
                 await saveVariableValue(this.variable.id, this.runningScriptId, this.value);
             }
         }

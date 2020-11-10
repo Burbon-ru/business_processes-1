@@ -11,7 +11,8 @@
 </template>
 
 <script>
-    import {mapActions} from "vuex";
+    import { getQuestionById, getAnswerById } from '@/functions/getStuffById.js';
+
     import vSelect from "vue-select";
     import "vue-select/dist/vue-select.css";
 
@@ -26,11 +27,11 @@
             answersSelect: []
         }),
         async mounted () {
-            let question = await this.getQuestionById(this.currentQuestion);
+            let question = await getQuestionById(this.currentQuestion);
             let answer = {};
 
             for (let answerId of question.data[0].answers) {
-                answer = await this.getAnswerById(answerId);
+                answer = await getAnswerById(answerId);
 
                 this.answers.push(answer.data[0]);
 
@@ -42,10 +43,6 @@
             }
         },
         methods: {
-            ...mapActions([
-                'getQuestionById',
-                'getAnswerById'
-            ]),
             selectAnswer (e) {
                 this.$emit('next-answer', e);
             }

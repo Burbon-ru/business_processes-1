@@ -59,6 +59,8 @@
 <script>
     import {mapActions, mapGetters} from 'vuex';
     import serializeFormByDomSelector from '@/functions/serializeFormByDomSelector.js';
+    import { getQuestionById } from '@/functions/getStuffById.js';
+
     import { Editor } from '@toast-ui/vue-editor';
     import editorOptions from "@/settings/editorOptions";
 
@@ -89,7 +91,6 @@
         },
         methods: {
             ...mapActions([
-                'getQuestionById',
                 'updateQuestion'
             ]),
             closeModal () {
@@ -99,7 +100,7 @@
                 return this.$refs.toastuiEditor.invoke('getHtml');
             },
             async setQuestionData () {
-                const question = await this.getQuestionById(this.current);
+                const question = await getQuestionById(this.current);
 
                 this.name = question.data[0].name;
                 this.text = question.data[0].text;

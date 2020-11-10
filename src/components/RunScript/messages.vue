@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import {mapActions} from "vuex";
+    import { getQuestionById } from '@/functions/getStuffById.js';
 
     export default {
         name: "messages",
@@ -21,24 +21,15 @@
             question: {}
         }),
         async mounted () {
-            let question = await this.getQuestionById(this.currentQuestion);
+            let question = await getQuestionById(this.currentQuestion);
             this.question = question.data[0];
-        },
-        methods: {
-            ...mapActions([
-                'getQuestionById'
-            ])
         }
     }
 </script>
 
 <style>
     .discussion {
-        /*max-width: 900px;*/
-        /*margin: 0 auto;*/
-
         display: flex;
-        /*flex-flow: column wrap;*/
         flex-direction: column;
     }
 

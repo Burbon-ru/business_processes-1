@@ -24,14 +24,20 @@
             currentQuestion: 0,
             questionsInMessages: []
         }),
+        components: {
+            QuestionAnswers,
+            Variables
+        },
         computed: {
             ...mapGetters([
                 'questionsInCurrentScript'
             ])
         },
-        components: {
-            QuestionAnswers,
-            Variables
+        mounted () {
+            this.$store.dispatch('setCurrentScriptId', this.$route.params.id);
+            this.$store.dispatch('setQuestionsInCurrentScript');
+
+            this.startScript();
         },
         watch: {
             questionsInCurrentScript (val) {
@@ -41,13 +47,8 @@
                 this.questionsInMessages.push(val[key]);
             }
         },
-        mounted () {
-            this.$store.dispatch('setCurrentScriptId', this.$route.params.id);
-            this.$store.dispatch('setQuestionsInCurrentScript');
-        },
         methods: {
             ...mapActions([
-                'getScriptById',
                 'getQuestionById',
                 'setCurrentScriptId',
                 'setQuestionsInCurrentScript'
@@ -72,6 +73,9 @@
                 }
 
                 return key;
+            },
+            startScript () {
+
             }
         }
     }

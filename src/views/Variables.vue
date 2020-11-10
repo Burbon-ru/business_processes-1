@@ -50,7 +50,6 @@
         }),
         methods: {
             ...mapActions([
-                'getScriptById',
                 'setCurrentScriptId',
                 'setVariablesInCurrentScript'
             ]),

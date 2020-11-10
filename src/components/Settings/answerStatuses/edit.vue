@@ -30,6 +30,7 @@
 <script>
     import {mapActions} from 'vuex';
     import serializeFormByDomSelector from '@/functions/serializeFormByDomSelector.js';
+    import { getAnswerStatusById } from '@/functions/getStuffById.js';
 
     export default {
         name: "editStatus",
@@ -47,7 +48,6 @@
         },
         methods: {
             ...mapActions([
-                'getAnswerStatysById',
                 'updateAnswerStatus'
             ]),
             async submitStatus () {
@@ -56,7 +56,7 @@
                 await this.updateAnswerStatus({id: this.currentId, data: objFormData});
             },
             async setStatusData () {
-                let answer = await this.getAnswerStatysById(this.currentId);
+                let answer = await getAnswerStatusById(this.currentId);
                 this.text = answer.data[0].text;
             }
         }

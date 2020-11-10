@@ -56,7 +56,10 @@
 
 <script>
     import serializeFormByDomSelector from '@/functions/serializeFormByDomSelector.js';
+    import {getScriptById} from '@/functions/getStuffById.js';
+
     import {mapActions, mapGetters} from 'vuex';
+
     import { Editor } from '@toast-ui/vue-editor';
     import editorOptions from "@/settings/editorOptions";
 
@@ -79,7 +82,6 @@
         methods: {
             ...mapActions([
                 'createAnswerStatus',
-                'getScriptById',
                 'updateScript',
                 'createQuestion'
             ]),
@@ -95,9 +97,9 @@
                 objFormData.answers = [];
 
                 // todo: проверка на статус
-                // todo: это должно быть в экшонах в схроне, но я не понимаю пока как
+                // todo: это должно быть в экшонах в схроне
                 let createdQuestion = await this.createQuestion(objFormData);
-                let updatedScript = await this.getScriptById(this.currentScriptId);
+                let updatedScript = await getScriptById(this.currentScriptId);
 
                 let questions = updatedScript.data[0].questions;
                 questions.push(createdQuestion.data.id);

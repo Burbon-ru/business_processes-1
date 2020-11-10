@@ -80,8 +80,14 @@ export default new Vuex.Store({
         /* creators */
         async createScript (context, name) {
             try {
-                const scriptData = {name: name, questions: [], variables: []};
+                const scriptData = {
+                    name: name,
+                    questions: [],
+                    variables: []
+                };
+
                 let script = await axios.post('http://localhost:3000/scripts', scriptData);
+
                 context.commit('addItemScripts', script.data);
             } catch (error) {
                 console.error(error);
@@ -99,6 +105,7 @@ export default new Vuex.Store({
                 return error;
             }
         },
+        // todo: экшон должен делать еще и коммит
         async createAnswer (context, data) {
             return axios.post('http://localhost:3000/answers', data);
         },
@@ -154,38 +161,9 @@ export default new Vuex.Store({
                 return error;
             }
         },
-        async getAnswersOfQuestionById (context, id) {
-            try {
-                let answer = {};
-                let answers = [];
-
-                let question = await axios.get('http://localhost:3000/questions/?id=' + id);
-
-                for (let answerId of question.data[0].answers) {
-                    answer = await axios.get('http://localhost:3000/answers/?id=' + answerId);
-                    answers.push(answer.data[0]);
-                }
-
-                return answers;
-            } catch (error) {
-                console.error(error);
-                return error;
-            }
-        },
-        async getScriptById (context, id) {
-            return axios.get('http://localhost:3000/scripts/?id=' + id);
-        },
-        async getQuestionById (context, id) {
-            return axios.get('http://localhost:3000/questions/?id=' + id);
-        },
-        async getAnswerById (context, id) {
-            return axios.get('http://localhost:3000/answers/?id=' + id);
-        },
-        async getAnswerStatysById (context, id) {
-            return axios.get('http://localhost:3000/answer_statuses/?id=' + id);
-        },
 
         /* updaters */
+        // todo: экшоны должены делать еще и коммит
         async updateScript (context, data) {
             return axios.patch('http://localhost:3000/scripts/' + data.id, data.data);
         },
@@ -203,9 +181,9 @@ export default new Vuex.Store({
         },
 
         /* delete */
+        // todo: экшон должен делать еще и коммит
         async deleteQuestion (context, data) {
             let script = await axios.get('http://localhost:3000/scripts/?id=' + data.scriptId);
-
             let questionDeleted = await axios.delete('http://localhost:3000/questions/' + data.questionId);
 
             if (200 == questionDeleted.status) {

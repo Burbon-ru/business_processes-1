@@ -50,6 +50,7 @@
 <script>
     import {mapActions, mapGetters} from 'vuex';
     import serializeFormByDomSelector from '@/functions/serializeFormByDomSelector.js';
+    import {getScriptById} from '@/functions/getStuffById.js';
 
     export default {
         name: "createVariable",
@@ -66,7 +67,6 @@
         methods: {
             ...mapActions([
                 'createVariable',
-                'getScriptById',
                 'updateScript'
             ]),
             closeModal () {
@@ -76,7 +76,7 @@
                 let objFormData = serializeFormByDomSelector('#create_variable_form');
 
                 let createdVariable = await this.createVariable(objFormData);
-                let updatedScript = await this.getScriptById(this.currentScriptId);
+                let updatedScript = await getScriptById(this.currentScriptId);
 
                 let variables = updatedScript.data[0].variables;
                 variables.push(createdVariable.data.id);

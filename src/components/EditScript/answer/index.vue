@@ -42,6 +42,7 @@
 
 <script>
     import {mapActions} from "vuex";
+    import { getQuestionById, getAnswerById } from '@/functions/getStuffById.js';
 
     export default {
         name: "answer",
@@ -60,11 +61,11 @@
             dragOffsetY: null
         }),
         async mounted () {
-            this.answer = await this.getAnswerById(this.answerId);
+            this.answer = await getAnswerById(this.answerId);
             this.answer = this.answer.data[0];
 
             if (this.answer.bind_to) {
-                this.question = await this.getQuestionById(this.answer.bind_to);
+                this.question = await getQuestionById(this.answer.bind_to);
                 this.question = this.question.data[0];
             }
 
@@ -78,9 +79,7 @@
         },
         methods: {
             ...mapActions([
-                'updateAnswer',
-                'getAnswerById',
-                'getQuestionById'
+                'updateAnswer'
             ]),
             async selectAnswer (e) {
                 try {

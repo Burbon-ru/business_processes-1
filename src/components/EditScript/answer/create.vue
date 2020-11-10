@@ -99,6 +99,8 @@
 <script>
     import {mapActions, mapGetters} from 'vuex';
     import serializeFormByDomSelector from '@/functions/serializeFormByDomSelector.js';
+    import {getQuestionById} from '@/functions/getStuffById.js';
+
     import { Editor } from '@toast-ui/vue-editor';
     import editorOptions from "@/settings/editorOptions";
 
@@ -129,8 +131,7 @@
             ...mapActions([
                 'getAnswerStatuses',
                 'createAnswer',
-                'updateQuestion',
-                'getQuestionById'
+                'updateQuestion'
             ]),
             closeModal () {
                 this.$emit('close-modal');
@@ -143,7 +144,7 @@
                 objFormData.text = this.getHtml();
 
                 let createdAnswer = await this.createAnswer(objFormData);
-                let updatedQuestion = await this.getQuestionById(this.currentQuestion);
+                let updatedQuestion = await getQuestionById(this.currentQuestion);
 
                 let answers = updatedQuestion.data[0].answers;
 

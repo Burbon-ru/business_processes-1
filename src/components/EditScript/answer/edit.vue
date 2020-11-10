@@ -101,6 +101,8 @@
 <script>
     import {mapActions, mapGetters} from 'vuex';
     import serializeFormByDomSelector from '@/functions/serializeFormByDomSelector.js';
+    import { getAnswerById } from '@/functions/getStuffById.js';
+
     import { Editor } from '@toast-ui/vue-editor';
     import editorOptions from "@/settings/editorOptions";
 
@@ -131,7 +133,6 @@
         },
         methods: {
             ...mapActions([
-                'getAnswerById',
                 'updateAnswer'
             ]),
             closeModal () {
@@ -151,7 +152,7 @@
                 }
             },
             async setAnswerData () {
-                const answer = await this.getAnswerById(this.current);
+                const answer = await getAnswerById(this.current);
 
                 this.name = answer.data[0].name;
                 this.text = answer.data[0].text;

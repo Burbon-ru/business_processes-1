@@ -16,7 +16,6 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
     import SelectAnswer from '@/components/RunScript/selectAnswer.vue';
     import Messages from '@/components/RunScript/messages.vue';
 
@@ -31,9 +30,6 @@
             answer: ''
         }),
         methods: {
-            ...mapActions([
-                'getAnswerById'
-            ]),
             nextAnswer (e) {
                 this.answer = e.label;
                 this.$emit('change-step', e.next);

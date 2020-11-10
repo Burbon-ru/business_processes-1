@@ -103,7 +103,6 @@
         },
         methods: {
             ...mapActions([
-                'getScriptById',
                 'setCurrentScriptId',
                 'setQuestionsInCurrentScript'
             ]),

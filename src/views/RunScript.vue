@@ -1,20 +1,33 @@
 <template>
     <div class="run_script">
-        <question-answers
-            v-for="question in questionsInMessages"
-            :key="question.id"
-            :question="question"
-            :number="question.id"
-            :currentQuestion="currentQuestion"
-            @change-step="changeStep"
-        />
+        <button
+            @click="startScript"
+            v-if="!dialogIsStarted"
+        >
+            Начать разговор
+        </button>
 
-        <variables />
+        <div v-if="dialogIsStarted">
+            <question-answers
+                v-for="question in questionsInMessages"
+                :key="question.id"
+                :question="question"
+                :number="question.id"
+                :currentQuestion="currentQuestion"
+                @change-step="changeStep"
+            />
+
+            <variables
+                :runningScriptId="runningScriptId"
+            />
+        </div>
     </div>
 </template>
 
 <script>
     import {mapActions, mapGetters} from 'vuex';
+    import { createRunningResult } from '@/functions/forVariables.js';
+
     import QuestionAnswers from '@/components/RunScript/questionAnswers.vue';
     import Variables from '@/components/RunScript/variables.vue';
 
@@ -22,7 +35,9 @@
         name: "RunScript",
         data: () => ({
             currentQuestion: 0,
-            questionsInMessages: []
+            questionsInMessages: [],
+            dialogIsStarted: false,
+            runningScriptId: 0
         }),
         components: {
             QuestionAnswers,
@@ -36,8 +51,6 @@
         mounted () {
             this.$store.dispatch('setCurrentScriptId', this.$route.params.id);
             this.$store.dispatch('setQuestionsInCurrentScript');
-
-            this.startScript();
         },
         watch: {
             questionsInCurrentScript (val) {
@@ -62,6 +75,12 @@
                 let key = this.getKeyCurrentQuestionInQuestionsInCurrentScriptArray();
                 this.questionsInMessages.push(this.questionsInCurrentScript[key]);
             },
+            async startScript () {
+                this.dialogIsStarted = true;
+                let res = await createRunningResult();
+
+                this.runningScriptId = res.data.id;
+            },
             getKeyCurrentQuestionInQuestionsInCurrentScriptArray () {
                 let key = 0;
 
@@ -72,9 +91,6 @@
                 }
 
                 return key;
-            },
-            startScript () {
-
             }
         }
     }

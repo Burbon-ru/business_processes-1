@@ -6,6 +6,7 @@
             v-for="variable in variablesInCurrentScript"
             :key="variable.id"
             :variable="variable"
+            :runningScriptId="runningScriptId"
         />
     </div>
 </template>
@@ -19,6 +20,7 @@
         components: {
             Variable
         },
+        props: ['runningScriptId'],
         computed: {
             ...mapGetters([
                 'currentScriptId',

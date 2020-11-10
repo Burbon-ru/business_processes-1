@@ -11,22 +11,19 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
     import delay from '@/functions/delay.js';
+    import { saveVariableValue } from '@/functions/forVariables.js';
 
     export default {
         name: "variable",
-        props: ['variable'],
+        props: ['variable', 'runningScriptId'],
         data: () => ({
             value: ''
         }),
         methods: {
-            ...mapActions([
-                'updateVariable'
-            ]),
             async saveValue () {
                 await delay(2);
-                await this.updateVariable({id: this.variable.id, data: {value: this.value}});
+                await saveVariableValue(this.variable.id, this.runningScriptId, this.value);
             }
         }
     }

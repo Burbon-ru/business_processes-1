@@ -3,10 +3,7 @@
         <v-select
             :options="answersSelect"
             @input="selectAnswer"
-        >
-            <template v-slot:item='{answersSelect}'> <div v-html='answersSelect.label'/> </template>
-            <template v-slot:selection='{answersSelect}'> <div v-html='answersSelect.label'/> </template>
-        </v-select>
+        />
     </div>
 </template>
 
@@ -36,7 +33,7 @@
                 this.answers.push(answer.data[0]);
 
                 this.answersSelect.push({
-                    label: answer.data[0].text.replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi,'').replace(/<[^>]+?>/g,'').replace(/\s+/g,' ').replace(/ /g,' ').replace(/>/g,' '),
+                    label: answer.data[0].name,
                     id: answer.data[0].id,
                     next: answer.data[0].bind_to
                 });

@@ -8,12 +8,15 @@
             :currentQuestion="currentQuestion"
             @change-step="changeStep"
         />
+
+        <variables />
     </div>
 </template>
 
 <script>
     import {mapActions, mapGetters} from 'vuex';
     import QuestionAnswers from '@/components/RunScript/questionAnswers.vue';
+    import Variables from '@/components/RunScript/variables.vue';
 
     export default {
         name: "RunScript",
@@ -27,7 +30,8 @@
             ])
         },
         components: {
-            QuestionAnswers
+            QuestionAnswers,
+            Variables
         },
         watch: {
             questionsInCurrentScript (val) {

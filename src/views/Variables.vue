@@ -11,20 +11,30 @@
             @close-modal="closeAllModal"
         />
 
-        <list />
+        <update-variable
+            v-if="CreatingUpdatingState.updating"
+            :currentId="editingVariableId"
+            @close-modal="closeAllModal"
+        />
+
+        <variables-list
+            @click-edit-variable="selectEditVariable"
+        />
     </div>
 </template>
 
 <script>
     import {mapActions} from 'vuex';
-    import List from '@/components/Variables/list.vue';
+    import variablesList from '@/components/Variables/list.vue';
     import createVariable from '@/components/Variables/create.vue';
+    import updateVariable from '@/components/Variables/edit.vue';
 
     export default {
         name: "Variables",
         components: {
-            List,
-            createVariable
+            variablesList,
+            createVariable,
+            updateVariable
         },
         mounted () {
             this.$store.dispatch('setCurrentScriptId', this.$route.params.id);
@@ -35,7 +45,8 @@
                 creating: false,
                 updating: false
             },
-            isSaved: false
+            isSaved: false,
+            editingVariableId: 0
         }),
         methods: {
             ...mapActions([
@@ -45,6 +56,10 @@
             ]),
             selectCreateVariable () {
                 this.updateCreatingUpdatingState('creating');
+            },
+            selectEditVariable (id) {
+                this.editingVariableId = id;
+                this.updateCreatingUpdatingState('updating');
             },
             closeAllModal () {
                 for (let state in this.CreatingUpdatingState) {

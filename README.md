@@ -4,7 +4,6 @@
 ```
 npm install
 npm i json-server -g
-json-server --watch db.json
 ```
 
 ### Компиляция и горячая перезагрузка для разработки
@@ -15,6 +14,7 @@ npm run serve
 ### Компиляция для production
 ```
 npm run build
+json-server --watch db.json
 ```
 
 ## Пояснения по работе приложения

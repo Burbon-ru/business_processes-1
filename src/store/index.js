@@ -4,6 +4,12 @@ import axios from 'axios';
 
 Vue.use(Vuex);
 
+import {
+    getVariableById,
+    getScriptById,
+    getQuestionById
+} from './../functions/getStuffById';
+
 export default new Vuex.Store({
     state: {
         scripts: [],
@@ -12,9 +18,8 @@ export default new Vuex.Store({
         questionsInCurrentScript: [],
         answers: [],
         answerStatuses: [],
-        lookingPool: 0,
         variables: [],
-        variablesInCurrentScript: [],
+        variablesInCurrentScript: []
     },
     getters: {
         scriptsList (state) {
@@ -34,8 +39,7 @@ export default new Vuex.Store({
         },
         answerStatusesList (state) {
             return state.answerStatuses;
-        },
-        isUiLocked: state => state.lookingPool > 0
+        }
     },
     mutations: {
         setScriptsList (state, scripts) {
@@ -70,9 +74,7 @@ export default new Vuex.Store({
         },
         setVariablesInCurrentScriptInState (state, variables) {
             state.variablesInCurrentScript = variables;
-        },
-        lockUi: state => state.lookingPool++,
-        unlockUi: state => state.lookingPool--
+        }
     },
     actions: {
         /* creators */
@@ -190,6 +192,9 @@ export default new Vuex.Store({
         async updateQuestion (context, data) {
             return axios.patch('http://localhost:3000/questions/' + data.id, data.data);
         },
+        async updateVariable (context, data) {
+            return axios.patch('http://localhost:3000/variables/' + data.id, data.data);
+        },
         async updateAnswer (context, data) {
             return axios.patch('http://localhost:3000/answers/' + data.id, data.data);
         },
@@ -239,23 +244,22 @@ export default new Vuex.Store({
         setCurrentScriptId (context, id) {
             context.commit('setCurrentScriptId', id);
         },
-        // todo this._actions переписать, как-то нужно по другому обращаться к экшонам. нужно узнать как.
         async setQuestionsInCurrentScript (context) {
-            let script = await this._actions.getScriptById[0](this.getters.currentScriptId);
+            let script = await getScriptById(this.getters.currentScriptId);
             let curScript = script.data[0];
 
             let question = {};
             let questions = [];
 
             for (let questionId of curScript.questions) {
-                question = await this._actions.getQuestionById[0](questionId);
+                question = await getQuestionById(questionId);
                 questions.push(question.data[0]);
             }
 
             context.commit('setQuestionsInCurrentScriptInState', questions);
         },
         async setVariablesInCurrentScript (context) {
-            let script = await this._actions.getScriptById[0](this.getters.currentScriptId);
+            let script = await getScriptById(this.getters.currentScriptId);
             let curScript = script.data[0];
 
             let variable = {};
@@ -270,7 +274,3 @@ export default new Vuex.Store({
         }
     }
 });
-
-function getVariableById (id) {
-    return axios.get('http://localhost:3000/variables/?id=' + id);
-}

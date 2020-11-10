@@ -33,15 +33,6 @@
                                     >
                                 </div>
 
-                                <editor
-                                    v-if="text.length"
-                                    :initialValue="text"
-                                    :language="editorOptions.language"
-                                    :initialEditType="editorOptions.initialEditType"
-                                    height="350px"
-                                    ref="toastuiEditor"
-                                />
-
                                 <div class="form-group">
                                     <label for="status">
                                         Статус
@@ -103,9 +94,6 @@
     import serializeFormByDomSelector from '@/functions/serializeFormByDomSelector.js';
     import { getAnswerById } from '@/functions/getStuffById.js';
 
-    import { Editor } from '@toast-ui/vue-editor';
-    import editorOptions from "@/settings/editorOptions";
-
     export default {
         name: "editAnswer",
         props: ['current', 'currentQuestion'],
@@ -117,15 +105,10 @@
         },
         data: () => ({
             status: 0,
-            text: '',
             name: '',
             bindTo: 0,
             editIsDone: false,
-            editorOptions: editorOptions
         }),
-        components: {
-            Editor
-        },
         watch: {
             current: function () {
                 this.setAnswerData();
@@ -138,12 +121,8 @@
             closeModal () {
                 this.$emit('close-modal');
             },
-            getHtml() {
-                return this.$refs.toastuiEditor.invoke('getHtml');
-            },
             async submitAnswer () {
                 let objFormData = serializeFormByDomSelector('#edit_answer_form');
-                objFormData.text = this.getHtml();
 
                 let updatedAnswer = await this.updateAnswer({id: this.current, data: objFormData});
 
@@ -155,7 +134,6 @@
                 const answer = await getAnswerById(this.current);
 
                 this.name = answer.data[0].name;
-                this.text = answer.data[0].text;
                 this.status = answer.data[0].status;
                 this.bindTo = answer.data[0].bind_to;
             }

@@ -1,6 +1,7 @@
 <template>
     <div class="variables">
         <h4>Переменные (просто пиши и они сохраняться)</h4>
+
         <variable
             v-for="variable in variablesInCurrentScript"
             :key="variable.id"

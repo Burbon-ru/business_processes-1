@@ -33,13 +33,6 @@
                                     >
                                 </div>
 
-                                <editor
-                                    :language="editorOptions.language"
-                                    :initialEditType="editorOptions.initialEditType"
-                                    height="350px"
-                                    ref="toastuiEditor"
-                                />
-
                                 <div class="form-group">
                                     <label for="status">
                                         Статус
@@ -101,23 +94,15 @@
     import serializeFormByDomSelector from '@/functions/serializeFormByDomSelector.js';
     import {getQuestionById} from '@/functions/getStuffById.js';
 
-    import { Editor } from '@toast-ui/vue-editor';
-    import editorOptions from "@/settings/editorOptions";
-
     export default {
         name: "createAnswer",
         props: ['currentQuestion'],
         data: () => ({
             status: 0,
-            text: '',
             name: '',
             bindTo: 0,
-            createIsDone: false,
-            editorOptions: editorOptions
+            createIsDone: false
         }),
-        components: {
-            Editor
-        },
         computed: {
             ...mapGetters([
                 'answerStatusesList',
@@ -136,12 +121,8 @@
             closeModal () {
                 this.$emit('close-modal');
             },
-            getHtml() {
-                return this.$refs.toastuiEditor.invoke('getHtml');
-            },
             async submitAnswer () {
                 let objFormData = serializeFormByDomSelector('#create_answer_form');
-                objFormData.text = this.getHtml();
 
                 let createdAnswer = await this.createAnswer(objFormData);
                 let updatedQuestion = await getQuestionById(this.currentQuestion);

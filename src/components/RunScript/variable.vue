@@ -12,6 +12,7 @@
 
 <script>
     import {mapActions} from 'vuex';
+    import delay from '@/functions/delay.js';
 
     export default {
         name: "variable",
@@ -24,15 +25,8 @@
                 'updateVariable'
             ]),
             async saveValue () {
-                await this.delay(2);
+                await delay(2);
                 await this.updateVariable({id: this.variable.id, data: {value: this.value}});
-            },
-            delay (s) {
-                return new Promise((resolve => {
-                    setTimeout(() => {
-                        resolve();
-                    }, s * 1000);
-                }))
             }
         }
     }

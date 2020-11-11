@@ -11,8 +11,8 @@
 </template>
 
 <script>
-    import delay from '@/functions/delay.js';
-    import { saveVariableValue } from '@/functions/forVariables.js';
+    import { mapActions } from 'vuex';
+    import { saveVariableValue, getVariablesByRunningScriptId } from '@/functions/forVariables.js';
 
     export default {
         name: "variable",
@@ -21,9 +21,17 @@
             value: ''
         }),
         methods: {
+            ...mapActions([
+                'setValuesOfVariableInRunningScript'
+            ]),
             async saveValue () {
-                await delay(1);
-                await saveVariableValue(this.variable.id, this.runningScriptId, this.value);
+                try {
+                    await saveVariableValue(this.variable.id, this.runningScriptId, this.value);
+                    const variables = await getVariablesByRunningScriptId(this.runningScriptId);
+                    this.$store.dispatch('setValuesOfVariableInRunningScript', variables);
+                } catch (err) {
+                    console.error(err);
+                }
             }
         }
     }

@@ -8,41 +8,58 @@
         @mouseup="drop"
         @click="selectAnswer"
     >
+        <defs>
+            <marker id="arrow"  markerWidth="20" markerHeight="20" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#4294ff"/>
+            </marker>
+        </defs>
+
         <path
             :d="pathCoords"
             fill="transparent"
-            stroke="blue"
-            stroke-width="5"
+            stroke="#4294ff"
+            stroke-width="1"
+            marker-end="url(#arrow)"
         />
 
         <rect
             class="answer"
             width="200"
-            height="80"
-            fill="orange"
+            height="40"
+            fill="#fff"
+            :stroke="blockColor"
+            stroke-width="2"
         />
 
         <text
-            x="20" y="20"
-            fill="white"
+            x="20" y="24"
+            fill="#000"
         >
             {{ answer.name }}
         </text>
 
-        <rect
-            width="80"
-            height="80"
-            fill="grey"
-            x="200"
-            class="answer"
+        <circle
+            cy="0" cx="200" r="10"
+            stroke="#f58d0f"
+            stroke-width="2"
+            fill="white"
             @click="editAnswer"
+        >
+        </circle>
+
+        <path
+            d="M206.68,11.07l-2-2,4.83-4.83,2,2Zm-2.19-1.65,1.83,1.83-2.74.92Zm7.63-3.8-.35.35-2-2,.35-.35a.89.89,0,0,1,1.26,0l.74.74A.89.89,0,0,1,212.12,5.62Z"
+            width="80" height="80" x="200"
+            transform="translate(-70 -10) scale(1.3)"
+            fill="#4294ff"
+            class="answer"
         />
     </g>
 </template>
 
 <script>
     import {mapActions} from "vuex";
-    import { getQuestionById, getAnswerById } from '@/functions/getStuffById.js';
+    import { getQuestionById, getAnswerById, getAnswerStatusById } from '@/functions/getStuffById.js';
 
     export default {
         name: "answer",
@@ -54,15 +71,21 @@
             stylesCoords: '',
             pathCoords: '',
             square: {
-                x: 50,
-                y: 50,
+                x: 25,
+                y: 25,
             },
             dragOffsetX: null,
-            dragOffsetY: null
+            dragOffsetY: null,
+            blockColor: ''
         }),
         async mounted () {
             this.answer = await getAnswerById(this.answerId);
             this.answer = this.answer.data[0];
+
+            if (this.answer.status) {
+                const answerStatus = await getAnswerStatusById(this.answer.status);
+                this.blockColor = answerStatus.data[0].color;
+            }
 
             if (this.answer.bind_to) {
                 this.question = await getQuestionById(this.answer.bind_to);
@@ -133,6 +156,7 @@
 <style lang="scss">
     .answer_drag {
         display: inline-block;
+        cursor: grab;
     }
 
     .answer {

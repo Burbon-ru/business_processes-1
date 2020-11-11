@@ -19,7 +19,8 @@ export default new Vuex.Store({
         answers: [],
         answerStatuses: [],
         variables: [],
-        variablesInCurrentScript: []
+        variablesInCurrentScript: [],
+        variableValuesInRunningScript: []
     },
     getters: {
         scriptsList (state) {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
         },
         answerStatusesList (state) {
             return state.answerStatuses;
+        },
+        valuesOfVariableInRunningScript (state) {
+            return state.variableValuesInRunningScript;
         }
     },
     mutations: {
@@ -74,6 +78,9 @@ export default new Vuex.Store({
         },
         setVariablesInCurrentScriptInState (state, variables) {
             state.variablesInCurrentScript = variables;
+        },
+        setValueOfVariableInRunningScriptInState (state, variables) {
+            state.variableValuesInRunningScript = variables;
         }
     },
     actions: {
@@ -249,6 +256,9 @@ export default new Vuex.Store({
             }
 
             context.commit('setVariablesInCurrentScriptInState', variables);
+        },
+        async setValuesOfVariableInRunningScript (context, variables) {
+            context.commit('setValueOfVariableInRunningScriptInState', variables);
         }
     }
 });

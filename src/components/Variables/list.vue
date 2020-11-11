@@ -4,7 +4,7 @@
             v-for="variable in variablesInCurrentScript"
             :key="variable.id"
         >
-            {{ variable.name }}
+            {{ variable.name }} (id: {{ variable.id }})
 
             <button
                 @click="clickEdit(variable.id)"

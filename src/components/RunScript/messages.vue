@@ -4,7 +4,9 @@
             class="bubble sender first"
             v-html="question.text"
         ></div>
+
         <div
+            v-if="answer"
             class="bubble recipient first"
             v-html="answer"
         ></div>
@@ -12,17 +14,49 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
     import { getQuestionById } from '@/functions/getStuffById.js';
 
     export default {
         name: "messages",
-        props: ['currentQuestion', 'answer'],
+        props: ['currentQuestion', 'answer', 'runningScriptId'],
         data: () => ({
             question: {}
         }),
+        computed: {
+            ...mapGetters([
+                'valuesOfVariableInRunningScript'
+            ])
+        },
+        watch: {
+            valuesOfVariableInRunningScript (val) {
+                const variables = JSON.parse(JSON.stringify(val));
+
+                let ob = {};
+
+                for (const variable of variables) {
+                    ob[variable.id] = '{' + variable.value + '}';
+                }
+
+                this.setReplacedVariable(ob);
+            }
+        },
         async mounted () {
             let question = await getQuestionById(this.currentQuestion);
             this.question = question.data[0];
+
+            const variables = JSON.parse(JSON.stringify(this.valuesOfVariableInRunningScript));
+            let ob = {};
+            for (const variable of variables) {
+                ob[variable.id] = '{' + variable.value + '}';
+            }
+            this.setReplacedVariable(ob);
+        },
+        methods: {
+            setReplacedVariable (ob) {
+                const regex = /{(.*?)}/g;
+                this.question.text = this.question.text.replace(regex, (m, c) => (ob)[c]);
+            }
         }
     }
 </script>

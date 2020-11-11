@@ -16,7 +16,7 @@ export function getAnswerById (id) {
     return axios.get('http://localhost:3000/answers/?id=' + id);
 }
 
-export function getAnswerStatusById (context, id) {
+export function getAnswerStatusById (id) {
     return axios.get('http://localhost:3000/answer_statuses/?id=' + id);
 }
 

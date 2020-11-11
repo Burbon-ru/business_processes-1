@@ -29,11 +29,6 @@ const routes = [
         path:'/scripts/run/:id',
         name: 'RunScript',
         component: () => import('../views/RunScript.vue')
-    },
-    {
-        path:'/test',
-        name: 'test',
-        component: () => import('../views/test.vue')
     }
 ];
 

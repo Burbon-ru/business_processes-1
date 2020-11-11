@@ -14,6 +14,7 @@
                 :question="question"
                 :number="question.id"
                 :currentQuestion="currentQuestion"
+                :runningScriptId="runningScriptId"
                 @change-step="changeStep"
             />
 

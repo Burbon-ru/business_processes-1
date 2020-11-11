@@ -5,6 +5,7 @@
         <messages
             :currentQuestion="question.id"
             :answer="answer"
+            :runningScriptId="runningScriptId"
         />
 
         <select-answer
@@ -21,7 +22,7 @@
 
     export default {
         name: "questionAnswers",
-        props: ['question', 'number', 'currentQuestion'],
+        props: ['question', 'number', 'currentQuestion', 'runningScriptId'],
         components: {
             SelectAnswer,
             Messages

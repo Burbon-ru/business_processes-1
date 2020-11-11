@@ -17,7 +17,7 @@
   "questions": [
     {
       "name": "Поприветствовать",
-      "text": "<p>Вам удобно разговаривать?</p>\n",
+      "text": "<p>Уважаемый {1}, Вам удобно разговаривать?</p>\n",
       "answers": [
         1,
         2,
@@ -25,8 +25,8 @@
       ],
       "id": 1,
       "coords": {
-        "x": 556,
-        "y": 21
+        "x": 314,
+        "y": 12
       }
     },
     {
@@ -35,8 +35,8 @@
       "answers": [],
       "id": 2,
       "coords": {
-        "x": 201,
-        "y": 651
+        "x": 178,
+        "y": 500
       }
     },
     {
@@ -48,8 +48,8 @@
       ],
       "id": 3,
       "coords": {
-        "x": 640,
-        "y": 262
+        "x": 331,
+        "y": 252
       }
     }
   ],
@@ -59,8 +59,8 @@
       "status": "1",
       "id": 1,
       "coords": {
-        "x": 189,
-        "y": 200
+        "x": 255,
+        "y": 102
       },
       "bind_to": "2"
     },
@@ -68,18 +68,19 @@
       "name": "Да, удобно",
       "id": 2,
       "coords": {
-        "x": 885,
-        "y": 157
+        "x": 352,
+        "y": 137
       },
-      "bind_to": "3"
+      "bind_to": "3",
+      "status": "2"
     },
     {
       "name": "Я согласен",
       "status": "2",
       "id": 3,
       "coords": {
-        "x": 419,
-        "y": 404
+        "x": 527,
+        "y": 390
       },
       "bind_to": "2"
     },
@@ -88,8 +89,8 @@
       "status": "1",
       "id": 4,
       "coords": {
-        "x": 915,
-        "y": 458
+        "x": 277,
+        "y": 360
       },
       "bind_to": "2"
     },
@@ -98,9 +99,11 @@
       "text": "",
       "id": 5,
       "coords": {
-        "x": 1308,
-        "y": 87
-      }
+        "x": 618,
+        "y": 147
+      },
+      "bind_to": "3",
+      "status": "3"
     }
   ],
   "variables": [
@@ -115,23 +118,148 @@
   ],
   "running_scripts": [
     {
-      "date_start": "2020-11-10T12:02:35.854Z",
-      "variables": [],
+      "date_start": "2020-11-11T09:04:02.627Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "sd"
+        }
+      ],
       "id": 1
+    },
+    {
+      "date_start": "2020-11-11T09:05:53.485Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "asdfasdfasdfasdf"
+        },
+        {
+          "id": 2,
+          "value": "asdfasdf"
+        }
+      ],
+      "id": 2
+    },
+    {
+      "date_start": "2020-11-11T09:07:02.711Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "1"
+        },
+        {
+          "id": 2,
+          "value": "2"
+        }
+      ],
+      "id": 3
+    },
+    {
+      "date_start": "2020-11-11T09:10:08.589Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "s"
+        },
+        {
+          "id": 2,
+          "value": "ff"
+        }
+      ],
+      "id": 4
+    },
+    {
+      "date_start": "2020-11-11T09:42:23.680Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "44"
+        }
+      ],
+      "id": 5
+    },
+    {
+      "date_start": "2020-11-11T09:45:18.941Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "45"
+        }
+      ],
+      "id": 6
+    },
+    {
+      "date_start": "2020-11-11T09:45:48.646Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "te"
+        }
+      ],
+      "id": 7
+    },
+    {
+      "date_start": "2020-11-11T09:55:44.437Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "teasdfasdf"
+        }
+      ],
+      "id": 8
+    },
+    {
+      "date_start": "2020-11-11T09:58:54.947Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "test"
+        }
+      ],
+      "id": 9
+    },
+    {
+      "date_start": "2020-11-11T09:59:30.995Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "testt"
+        }
+      ],
+      "id": 10
+    },
+    {
+      "date_start": "2020-11-11T10:16:53.607Z",
+      "variables": [],
+      "id": 11
+    },
+    {
+      "date_start": "2020-11-11T10:18:06.994Z",
+      "variables": [
+        {
+          "id": 1,
+          "value": "te"
+        }
+      ],
+      "id": 12
     }
   ],
   "answer_statuses": [
     {
       "id": "1",
-      "text": "bad"
+      "text": "Плохой",
+      "color": "red"
     },
     {
       "id": "2",
-      "text": "good"
+      "text": "Хороший",
+      "color": "green"
     },
     {
-      "text": "ugly",
-      "id": "P07_Dps"
+      "text": "Нейтральный",
+      "id": "3",
+      "color": "blue"
     }
   ]
 }

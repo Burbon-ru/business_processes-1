@@ -12,15 +12,17 @@
             width="100%"
             height="100%"
         >
-            <question
-                v-for="question in questionsInCurrentScript"
-                :questionId="question.id"
-                :key="question.id"
-                :currentQuestion="currentQuestion"
-                @click-edit-question="selectQuestion(question.id)"
-                @click-answer="selectAnswer"
-                @is-add-answer="selectCreateQuestion(question.id)"
-            />
+            <g id="transform-wrapper" transform="scale(1 1)" >
+                <question
+                    v-for="question in questionsInCurrentScript"
+                    :questionId="question.id"
+                    :key="question.id"
+                    :currentQuestion="currentQuestion"
+                    @click-edit-question="selectQuestion(question.id)"
+                    @click-answer="selectAnswer"
+                    @is-add-answer="selectCreateQuestion(question.id)"
+                />
+            </g>
         </svg>
 
         <create-question

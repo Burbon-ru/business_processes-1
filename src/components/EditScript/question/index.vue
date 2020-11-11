@@ -44,9 +44,26 @@
                 {{ question.name }} (ID: {{ question.id }})
             </text>
 
-            <circle cy="40" cx="100" r="10" stroke="#cfcfcf" stroke-width="1" fill="#fff"></circle>
-            <circle cy="0" cx="200" r="10" stroke="#cfcfcf" stroke-width="1" fill="#fff"></circle>
-            <circle cy="0" cx="0" r="10" stroke="#cfcfcf" stroke-width="1" fill="#fff"></circle>
+            <circle
+                cy="40" cx="100" r="10"
+                stroke="#cfcfcf"
+                stroke-width="1"
+                fill="#fff"
+            ></circle>
+
+            <circle
+                cy="0" cx="200" r="10"
+                stroke="#cfcfcf"
+                stroke-width="1"
+                fill="#fff"
+            ></circle>
+
+            <circle
+                cy="0" cx="0" r="10"
+                stroke="#cfcfcf"
+                stroke-width="1"
+                fill="#fff"
+            ></circle>
 
             <path
                 d="M108.66,48.66h2.57a.51.51,0,0,0,.51-.51v-.34a.51.51,0,0,0-.51-.52h-2.57V44.73a.51.51,0,0,0-.51-.52h-.34a.52.52,0,0,0-.52.52v2.56h-2.56a.52.52,0,0,0-.52.52v.34a.51.51,0,0,0,.52.51h2.56v2.57a.51.51,0,0,0,.52.51h.34a.51.51,0,0,0,.51-.51Z"
@@ -95,6 +112,8 @@
 <script>
     import Answer from '@/components/EditScript/answer/index.vue';
     import {mapActions, mapGetters} from 'vuex';
+
+    import { bus } from '@/bus/index.js';
 
     import { getQuestionById, getAnswersOfQuestionById } from '@/functions/getStuffById.js';
 
@@ -158,17 +177,21 @@
             },
             async selectQuestion (e) {
                 try {
+                    const coords = {
+                        x: e.offsetX - this.square.x,
+                        y: e.offsetY - this.square.y
+                    };
+
                     let updatedQuestion = await this.updateQuestion({
                         id: e.target.id,
                         data: {
-                            coords: {
-                                x: e.offsetX - this.square.x,
-                                y: e.offsetY - this.square.y
-                            }
+                            coords: coords
                         }
                     });
 
                     this.question = updatedQuestion.data;
+
+                    bus.$emit('question-move', {questionId: this.question.id, coords: coords});
                 } catch (e) {
                     console.error(e);
                 }

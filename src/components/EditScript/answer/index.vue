@@ -59,6 +59,9 @@
 
 <script>
     import {mapActions} from "vuex";
+
+    import { bus } from '@/bus/index.js';
+
     import { getQuestionById, getAnswerById, getAnswerStatusById } from '@/functions/getStuffById.js';
 
     export default {
@@ -99,6 +102,8 @@
             if (this.answer.coords) {
                 this.stylesCoords =  `translate(${this.answer.coords.x}, ${this.answer.coords.y})`;
             }
+
+            bus.$on('question-move', this.questionMoveHandler);
         },
         methods: {
             ...mapActions([
@@ -148,6 +153,11 @@
                 }
 
                 this.stylesCoords = `translate(${offsetX - this.square.x}, ${offsetY - this.square.x})`;
+            },
+            questionMoveHandler ({questionId, coords}) {
+                if (this.answer.bind_to == questionId) {
+                    this.pathCoords = `M 0 0 L ${coords.x - this.answer.coords.x} ${coords.y - this.answer.coords.y}`;
+                }
             }
         }
     }

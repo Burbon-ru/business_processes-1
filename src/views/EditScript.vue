@@ -11,6 +11,7 @@
             class="edit-script"
             width="100%"
             height="100%"
+            @dblclick="createQuestion"
         >
             <g id="transform-wrapper" transform="scale(1 1)" >
                 <question
@@ -27,6 +28,7 @@
 
         <create-question
             v-if="CreatingUpdatingState.creatingQuestion"
+            :newQuestionCoords="newQuestionCoords"
             @close-modal="closeAllModal"
         />
 
@@ -84,7 +86,12 @@
                 editingAnswer: false
             },
             isSaved: false,
-            fullPage: true
+            fullPage: true,
+            square: {
+                x: 25,
+                y: 25,
+            },
+            newQuestionCoords: {}
         }),
         computed: {
             ...mapGetters([
@@ -133,6 +140,14 @@
                         this.CreatingUpdatingState[state] = false;
                     }
                 }
+            },
+            createQuestion (e) {
+                this.newQuestionCoords = {
+                    x: e.offsetX - this.square.x,
+                    y: e.offsetY - this.square.y,
+                };
+
+                this.updateCreatingUpdatingState('creatingQuestion');
             }
         }
     }

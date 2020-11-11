@@ -12,6 +12,14 @@
         2
       ],
       "id": 1
+    },
+    {
+      "name": "тест",
+      "questions": [
+        4
+      ],
+      "variables": [],
+      "id": 2
     }
   ],
   "questions": [
@@ -35,8 +43,8 @@
       "answers": [],
       "id": 2,
       "coords": {
-        "x": 145,
-        "y": 585
+        "x": 481,
+        "y": 592
       }
     },
     {
@@ -48,9 +56,19 @@
       ],
       "id": 3,
       "coords": {
-        "x": 271,
-        "y": 288
+        "x": 350,
+        "y": 277
       }
+    },
+    {
+      "name": "Привет",
+      "text": "<p>asdfasdf</p>\n",
+      "answers": [],
+      "coords": {
+        "x": 257,
+        "y": 670
+      },
+      "id": 4
     }
   ],
   "answers": [
@@ -68,8 +86,8 @@
       "name": "Да, удобно",
       "id": 2,
       "coords": {
-        "x": 510,
-        "y": 134
+        "x": 415,
+        "y": 136
       },
       "bind_to": "3",
       "status": "2"
@@ -79,8 +97,8 @@
       "status": "2",
       "id": 3,
       "coords": {
-        "x": 790,
-        "y": 385
+        "x": 774,
+        "y": 408
       },
       "bind_to": "2"
     },
@@ -89,8 +107,8 @@
       "status": "1",
       "id": 4,
       "coords": {
-        "x": 261,
-        "y": 391
+        "x": 417,
+        "y": 402
       },
       "bind_to": "2"
     },
@@ -116,135 +134,7 @@
       "id": 2
     }
   ],
-  "running_scripts": [
-    {
-      "date_start": "2020-11-11T09:04:02.627Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "sd"
-        }
-      ],
-      "id": 1
-    },
-    {
-      "date_start": "2020-11-11T09:05:53.485Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "asdfasdfasdfasdf"
-        },
-        {
-          "id": 2,
-          "value": "asdfasdf"
-        }
-      ],
-      "id": 2
-    },
-    {
-      "date_start": "2020-11-11T09:07:02.711Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "1"
-        },
-        {
-          "id": 2,
-          "value": "2"
-        }
-      ],
-      "id": 3
-    },
-    {
-      "date_start": "2020-11-11T09:10:08.589Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "s"
-        },
-        {
-          "id": 2,
-          "value": "ff"
-        }
-      ],
-      "id": 4
-    },
-    {
-      "date_start": "2020-11-11T09:42:23.680Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "44"
-        }
-      ],
-      "id": 5
-    },
-    {
-      "date_start": "2020-11-11T09:45:18.941Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "45"
-        }
-      ],
-      "id": 6
-    },
-    {
-      "date_start": "2020-11-11T09:45:48.646Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "te"
-        }
-      ],
-      "id": 7
-    },
-    {
-      "date_start": "2020-11-11T09:55:44.437Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "teasdfasdf"
-        }
-      ],
-      "id": 8
-    },
-    {
-      "date_start": "2020-11-11T09:58:54.947Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "test"
-        }
-      ],
-      "id": 9
-    },
-    {
-      "date_start": "2020-11-11T09:59:30.995Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "testt"
-        }
-      ],
-      "id": 10
-    },
-    {
-      "date_start": "2020-11-11T10:16:53.607Z",
-      "variables": [],
-      "id": 11
-    },
-    {
-      "date_start": "2020-11-11T10:18:06.994Z",
-      "variables": [
-        {
-          "id": 1,
-          "value": "te"
-        }
-      ],
-      "id": 12
-    }
-  ],
+  "running_scripts": [],
   "answer_statuses": [
     {
       "id": "1",

@@ -12,7 +12,7 @@
                         </div>
                         <div class="modal-body">
                             <div v-if="createIsDone">
-                                Ответ успешно создан
+                                Вопрос успешно создан
                             </div>
 
                             <form
@@ -57,6 +57,7 @@
 <script>
     import serializeFormByDomSelector from '@/functions/serializeFormByDomSelector.js';
     import {getScriptById} from '@/functions/getStuffById.js';
+    import delay from '@/functions/delay.js';
 
     import {mapActions, mapGetters} from 'vuex';
 
@@ -71,6 +72,7 @@
             createIsDone: false,
             editorOptions: editorOptions
         }),
+        props: ['newQuestionCoords'],
         components: {
             Editor
         },
@@ -95,6 +97,7 @@
                 let objFormData = serializeFormByDomSelector('#create_question_form');
                 objFormData.text = this.getHtml();
                 objFormData.answers = [];
+                objFormData.coords = this.newQuestionCoords;
 
                 // todo: проверка на статус
                 // todo: это должно быть в экшонах в схроне
@@ -108,6 +111,8 @@
 
                 if (updateScriptRes.status == 200) {
                     this.createIsDone = true;
+                    await delay(2);
+                    this.closeModal();
                 }
             }
         }

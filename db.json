@@ -16,7 +16,7 @@
     {
       "name": "тест",
       "questions": [
-        4
+        5
       ],
       "variables": [],
       "id": 2
@@ -43,8 +43,8 @@
       "answers": [],
       "id": 2,
       "coords": {
-        "x": 481,
-        "y": 592
+        "x": 253,
+        "y": 539
       }
     },
     {
@@ -61,14 +61,24 @@
       }
     },
     {
-      "name": "Привет",
+      "name": "тест",
+      "text": "<p>afdsasdfasd</p>\n",
+      "answers": [],
+      "coords": {
+        "x": 388,
+        "y": 173
+      },
+      "id": 4
+    },
+    {
+      "name": "тест",
       "text": "<p>asdfasdf</p>\n",
       "answers": [],
       "coords": {
-        "x": 257,
-        "y": 670
+        "x": 396,
+        "y": 127
       },
-      "id": 4
+      "id": 5
     }
   ],
   "answers": [
@@ -117,8 +127,8 @@
       "text": "",
       "id": 5,
       "coords": {
-        "x": 827,
-        "y": 135
+        "x": 771,
+        "y": 148
       },
       "bind_to": "3",
       "status": "3"

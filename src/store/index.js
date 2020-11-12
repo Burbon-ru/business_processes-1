@@ -76,6 +76,9 @@ export default new Vuex.Store({
         setQuestionsInCurrentScriptInState (state, questions) {
             state.questionsInCurrentScript = questions;
         },
+        addQuestionInCurrentScriptInState (state, question) {
+            state.questionsInCurrentScript.push(question);
+        },
         setVariablesInCurrentScriptInState (state, variables) {
             state.variablesInCurrentScript = variables;
         },
@@ -101,12 +104,23 @@ export default new Vuex.Store({
                 return error;
             }
         },
-        async createQuestion (context, data) {
+        async createQuestion (context, {data, scriptId}) {
             try {
                 let question = await axios.post('http://localhost:3000/questions', data);
-                context.commit('addQuestion', question.data);
+                let updatedScript = await getScriptById(scriptId);
 
-                return question;
+                let questions = updatedScript.data[0].questions;
+                questions.push(question.data.id);
+
+                let updateScriptRes = await axios.patch('http://localhost:3000/scripts/' + scriptId, {questions: questions});
+
+                if (200 == updateScriptRes.status) {
+                    context.commit('addQuestion', question.data);
+                    context.commit('addQuestionInCurrentScriptInState', question.data);
+
+                    return true;
+                }
+
             } catch (error) {
                 console.error(error);
                 return error;

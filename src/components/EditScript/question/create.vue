@@ -56,7 +56,6 @@
 
 <script>
     import serializeFormByDomSelector from '@/functions/serializeFormByDomSelector.js';
-    import {getScriptById} from '@/functions/getStuffById.js';
     import delay from '@/functions/delay.js';
 
     import {mapActions, mapGetters} from 'vuex';
@@ -95,21 +94,14 @@
             },
             async submitQuestion () {
                 let objFormData = serializeFormByDomSelector('#create_question_form');
+
                 objFormData.text = this.getHtml();
                 objFormData.answers = [];
                 objFormData.coords = this.newQuestionCoords;
 
-                // todo: проверка на статус
-                // todo: это должно быть в экшонах в схроне
-                let createdQuestion = await this.createQuestion(objFormData);
-                let updatedScript = await getScriptById(this.currentScriptId);
+                let createdQuestion = await this.createQuestion({data: objFormData, scriptId: this.currentScriptId});
 
-                let questions = updatedScript.data[0].questions;
-                questions.push(createdQuestion.data.id);
-
-                let updateScriptRes = await this.updateScript({id: this.currentScriptId, data: {questions: questions}});
-
-                if (updateScriptRes.status == 200) {
+                if (createdQuestion) {
                     this.createIsDone = true;
                     await delay(2);
                     this.closeModal();

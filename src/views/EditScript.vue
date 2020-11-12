@@ -1,11 +1,5 @@
 <template>
     <div class="edit-script__wrapper">
-        <button
-            @click="updateCreatingUpdatingState('creatingQuestion')"
-        >
-            Создать вопрос
-        </button>
-
         <svg
             id="svg"
             class="edit-script"

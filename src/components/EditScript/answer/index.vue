@@ -44,15 +44,30 @@
             stroke-width="2"
             fill="white"
             @click="editAnswer"
-        >
-        </circle>
-
+        />
         <path
             d="M206.68,11.07l-2-2,4.83-4.83,2,2Zm-2.19-1.65,1.83,1.83-2.74.92Zm7.63-3.8-.35.35-2-2,.35-.35a.89.89,0,0,1,1.26,0l.74.74A.89.89,0,0,1,212.12,5.62Z"
             width="80" height="80" x="200"
             transform="translate(-70 -10) scale(1.3)"
             fill="#4294ff"
             class="answer"
+        />
+
+        <circle
+            cy="0" cx="0" r="10"
+            stroke="#cfcfcf"
+            stroke-width="1"
+            fill="#fff"
+        />
+        <path
+            d="M9,8l1.81-1.82a.51.51,0,0,0,0-.72l-.24-.24a.52.52,0,0,0-.73,0L8,7,6.16,5.2a.49.49,0,0,0-.72,0l-.24.24a.49.49,0,0,0,0,.72L7,8,5.2,9.79a.52.52,0,0,0,0,.73l.24.24a.51.51,0,0,0,.72,0L8,9l1.81,1.81a.52.52,0,0,0,.73,0l.24-.24a.52.52,0,0,0,0-.73Z"
+            y="0" x="360"
+            transform="translate(-12 -12) scale(1.5)"
+            style="fill: #f00;"
+            width="80"
+            height="80"
+            class="question delete"
+            @click="deleteA"
         />
     </g>
 </template>
@@ -129,6 +144,9 @@
             },
             editAnswer () {
                 this.$emit('click-edit-answer', this.answer.id);
+            },
+            deleteA () {
+                console.log('delete answer');
             },
             drag ({offsetX, offsetY}) {
                 this.dragOffsetX = offsetX - this.square.x;

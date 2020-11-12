@@ -79,6 +79,9 @@ export default new Vuex.Store({
         addQuestionInCurrentScriptInState (state, question) {
             state.questionsInCurrentScript.push(question);
         },
+        deleteQuestionInCurrentScriptInState (state, questionId) {
+            state.questionsInCurrentScript = state.questionsInCurrentScript.filter(el => el.id != questionId);
+        },
         setVariablesInCurrentScriptInState (state, variables) {
             state.variablesInCurrentScript = variables;
         },
@@ -121,6 +124,7 @@ export default new Vuex.Store({
                     return true;
                 }
 
+                return false
             } catch (error) {
                 console.error(error);
                 return error;
@@ -202,15 +206,17 @@ export default new Vuex.Store({
         },
 
         /* delete */
-        // todo: экшон должен делать еще и коммит
-        async deleteQuestion (context, data) {
-            let script = await axios.get('http://localhost:3000/scripts/?id=' + data.scriptId);
-            let questionDeleted = await axios.delete('http://localhost:3000/questions/' + data.questionId);
+        // todo: это еще не конец (напиши метод удаления ответа и используй его здесь)
+        async deleteQuestion (context, {questionId, scriptId}) {
+            let script = await axios.get('http://localhost:3000/scripts/?id=' + scriptId);
+            let questionDeleted = await axios.delete('http://localhost:3000/questions/' + questionId);
 
             if (200 == questionDeleted.status) {
+                context.commit('deleteQuestionInCurrentScriptInState', questionId);
+
                 let questionsBefore = script.data[0].questions;
-                let questions = script.data[0].questions.filter(e => e !== data.questionId);
-                let scriptUpdate = await axios.patch('http://localhost:3000/scripts/' + data.scriptId, {questions: questions});
+                let questions = script.data[0].questions.filter(e => e !== questionId);
+                let scriptUpdate = await axios.patch('http://localhost:3000/scripts/' + scriptId, {questions: questions});
 
                 if (200 == scriptUpdate.status) {
                     let answers = questionsBefore.answers;

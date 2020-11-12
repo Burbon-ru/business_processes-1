@@ -71,12 +71,14 @@
       "id": 4
     },
     {
-      "name": "тест",
-      "text": "<p>asdfasdf</p>\n",
-      "answers": [],
+      "name": "Привет",
+      "text": "<p>asdfasdfasdf</p>\n",
+      "answers": [
+        6
+      ],
       "coords": {
-        "x": 396,
-        "y": 127
+        "x": 264,
+        "y": 110
       },
       "id": 5
     }
@@ -132,6 +134,15 @@
       },
       "bind_to": "3",
       "status": "3"
+    },
+    {
+      "name": "Никита",
+      "id": 6,
+      "coords": {
+        "x": 327,
+        "y": 354
+      },
+      "status": "2"
     }
   ],
   "variables": [

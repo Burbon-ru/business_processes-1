@@ -242,8 +242,26 @@ export default new Vuex.Store({
 
             return false;
         },
-        // async deleteAnswer (context, id) {},
-        // async deleteAnswerStatus (context, id) {},
+        async deleteAnswer (context, {questionId, answerId}) {
+            const res = await axios.delete('http://localhost:3000/answers/' + answerId);
+
+            console.log('res in store', res);
+
+            if (200 == res.status) {
+                let question = await axios.get('http://localhost:3000/questions/?id=' + questionId);
+
+                console.log('question', question);
+
+                let answers = question.data[0].answers.filter(e => e !== answerId);
+                let scriptUpdate = await axios.patch('http://localhost:3000/questions/' + questionId, {answers: answers});
+
+                if (200 == scriptUpdate.status) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
 
         /* setters */
         setCurrentScriptId (context, id) {

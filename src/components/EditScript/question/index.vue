@@ -30,7 +30,6 @@
             :style="cursor"
             @mousedown="drag"
             @mouseup="drop"
-            @click="selectQuestion"
         >
             <rect
                 class="question"
@@ -55,6 +54,7 @@
                 stroke="#cfcfcf"
                 stroke-width="1"
                 fill="#fff"
+                @click="clickAddAnswer"
             />
             <path
                 d="M108.66,48.66h2.57a.51.51,0,0,0,.51-.51v-.34a.51.51,0,0,0-.51-.52h-2.57V44.73a.51.51,0,0,0-.51-.52h-.34a.52.52,0,0,0-.52.52v2.56h-2.56a.52.52,0,0,0-.52.52v.34a.51.51,0,0,0,.52.51h2.56v2.57a.51.51,0,0,0,.52.51h.34a.51.51,0,0,0,.51-.51Z"
@@ -108,6 +108,7 @@
             :key="answer.id"
             @click-edit-answer="selectAnswer(answer.id)"
             @answer-change="changeAnswers"
+            @delete-answer="changeAnswers"
         />
     </g>
 </template>
@@ -172,13 +173,64 @@
                 'updateQuestion',
                 'deleteQuestion'
             ]),
+
+            addAnswer () {
+                this.$emit('click-question'); // зачем?
+                this.$emit('is-add-answer');
+            },
+
+            selectAnswer (id) {
+                this.$emit('click-answer', id);
+            },
+
+            clickAddAnswer () {
+
+            },
+
+            /**
+             * Говорит родительскому компоненту чтобы он вызвал редактирование вопроса
+             *
+             */
             editQuestion () {
                 this.$emit('click-edit-question');
             },
+
+            /**
+             * Событие вызывается из компонента answer
+             * чтобы обновить данные о ответах здесь:
+             * перерисовать линии
+             *
+             * @returns {Promise<void>}
+             */
             async changeAnswers () {
                 this.answers = await getAnswersOfQuestionById(this.questionId);
             },
-            async selectQuestion (e) {
+
+            /**
+             * Удаление вопроса
+             */
+            deleteQ () {
+                if (confirm('Все связанные сущности будут удалены. Продолжить?')) {
+                    this.deleteQuestion({
+                        questionId: this.question.id,
+                        scriptId: this.currentScriptId
+                    });
+                }
+            },
+
+            /**
+             * Событие завершения перетаскивания
+             * Метод сохраняет значения координат вопроса в базу,
+             * обновляет данные this.question,
+             * и по шине событий передает событие question-move с данными:
+             * questionId - id вопроса который передвинут
+             * coords - новые координаты вопроса
+             * что перерисовать линию от ответа к привязанному к нему вопросу
+             * в компоненте answer
+             *
+             * вызывается в событии drop
+             */
+            async dragEnd (e) {
                 try {
                     const coords = {
                         x: e.offsetX - this.square.x,
@@ -199,43 +251,48 @@
                     console.error(e);
                 }
             },
-            deleteQ () {
-                if (confirm('Все связанные сущности будут удалены. Продолжить?')) {
-                    this.deleteQuestion({
-                        questionId: this.question.id,
-                        scriptId: this.currentScriptId
+
+            /**
+             * перерисовывает пути ко всем ответам
+             * вызывается в методах drag and drop
+             *
+             * @param offsetX
+             * @param offsetY
+             */
+            move ({offsetX, offsetY}) {
+                for (let answer of this.answers) {
+                    this.pathsCoords = this.pathsCoords.map(el => {
+                        el.value = `M ${offsetX} ${offsetY} L ${answer.coords.x} ${answer.coords.y}`;
+                        return el;
                     });
                 }
+
+                this.stylesCoords = `translate(${offsetX - this.square.x}, ${offsetY - this.square.y})`;
             },
-            addAnswer () {
-                this.$emit('click-question');
-                this.$emit('is-add-answer');
-            },
-            selectAnswer (id) {
-                this.$emit('click-answer', id);
-            },
+
+            /**
+             * drag на событии mousedown
+             *
+             * @param offsetX
+             * @param offsetY
+             */
             drag ({offsetX, offsetY}) {
                 this.dragOffsetX = offsetX - this.square.x;
                 this.dragOffsetY = offsetY - this.square.y;
 
                 this.$refs.box.addEventListener('mousemove', this.move);
             },
-            drop () {
+
+            /**
+             * drag на событии mouseup
+             */
+            drop (e) {
                 this.dragOffsetX = this.dragOffsetY = null;
+
+                this.dragEnd(e);
 
                 this.$refs.box.removeEventListener('mousemove', this.move);
             },
-            move ({offsetX, offsetY}) {
-                for (let answer of this.answers) {
-                    for (let pathKey in this.pathsCoords) {
-                        if (this.pathsCoords[pathKey].id == answer.id) {
-                            this.pathsCoords[pathKey].value = `M ${offsetX} ${offsetY} L ${answer.coords.x} ${answer.coords.y}`;
-                        }
-                    }
-                }
-
-                this.stylesCoords = `translate(${offsetX - this.square.x}, ${offsetY - this.square.y})`;
-            }
         }
     }
 </script>

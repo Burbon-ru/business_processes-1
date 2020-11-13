@@ -20,24 +20,28 @@
             </g>
         </svg>
 
+        <!-- Компонент-модальное окно создания вопроса -->
         <create-question
             v-if="CreatingUpdatingState.creatingQuestion"
             :newQuestionCoords="newQuestionCoords"
             @close-modal="closeAllModal"
         />
 
+        <!-- Компонент-модальное окно редактирования вопроса -->
         <edit-question
             v-if="CreatingUpdatingState.editingQuestion"
             :current="currentQuestion"
             @close-modal="closeAllModal"
         />
 
+        <!-- Компонент-модальное окно создания ответа -->
         <create-answer
             v-if="CreatingUpdatingState.creatingAnswer"
             :currentQuestion="currentQuestion"
             @close-modal="closeAllModal"
         />
 
+        <!-- Компонент-модальное окно редактирования ответа -->
         <edit-answer
             v-if="CreatingUpdatingState.editingAnswer"
             :currentQuestion="currentQuestion"
@@ -56,10 +60,9 @@
     import createAnswer from '@/components/EditScript/answer/create.vue';
     import editAnswer from '@/components/EditScript/answer/edit.vue';
 
-    import 'vue-loading-overlay/dist/vue-loading.css';
+    // стили для текстового редактора
     import 'tui-editor/dist/tui-editor.css'
     import 'tui-editor/dist/tui-editor-contents.css'
-    import 'codemirror/lib/codemirror.css'
 
     export default {
         name: "EditScript",
@@ -79,8 +82,6 @@
                 editingQuestion: false,
                 editingAnswer: false
             },
-            isSaved: false,
-            fullPage: true,
             square: {
                 x: 25,
                 y: 25,
@@ -98,6 +99,12 @@
             this.$store.dispatch('setQuestionsInCurrentScript');
         },
         watch: {
+            /**
+             * работает ли if я незнаю.
+             * идея в обновлении данных
+             * но без if дофига запросов в базу
+             * todo: разобраться с этим
+             */
             questionsInCurrentScript (val) {
                 if (val !== this.questionsInCurrentScript) {
                     this.$store.dispatch('setQuestionsInCurrentScript');
@@ -109,32 +116,53 @@
                 'setCurrentScriptId',
                 'setQuestionsInCurrentScript'
             ]),
+
+            /**
+             * Закрывает модальные окна
+             */
             closeAllModal () {
                 for (let state in this.CreatingUpdatingState) {
                     this.CreatingUpdatingState[state] = false;
                 }
             },
+
+            /**
+             * Вызывает модальное окно изменения вопроса
+             *
+             * @param id
+             */
             selectQuestion (id) {
                 this.currentQuestion = id;
                 this.updateCreatingUpdatingState('editingQuestion');
             },
-            selectAnswer (id) {
-                this.currentAnswer = id;
-                this.updateCreatingUpdatingState('editingAnswer');
-            },
+
+            /**
+             * Вызывает модальное окно создания вопроса
+             *
+             * @param id
+             */
             selectCreateQuestion (id) {
                 this.currentQuestion = id;
                 this.updateCreatingUpdatingState('creatingAnswer');
             },
-            updateCreatingUpdatingState (changingNow) {
-                for (let state in this.CreatingUpdatingState) {
-                    if (state == changingNow) {
-                        this.CreatingUpdatingState[state] = true;
-                    } else {
-                        this.CreatingUpdatingState[state] = false;
-                    }
-                }
+
+            /**
+             * Вызывает модальное окно изменения ответа
+             *
+             * @param id
+             */
+            selectAnswer (id) {
+                this.currentAnswer = id;
+                this.updateCreatingUpdatingState('editingAnswer');
             },
+
+            /**
+             * Сохраняет координаты двойного клика в this.newQuestionCoords
+             * и передает их в компонент создания вопроса
+             * вызывает модальное окно создания вопроса
+             *
+             * @param e {MouseEvent}
+             */
             createQuestion (e) {
                 this.newQuestionCoords = {
                     x: e.offsetX - this.square.x,
@@ -142,18 +170,33 @@
                 };
 
                 this.updateCreatingUpdatingState('creatingQuestion');
+            },
+
+            /**
+             * Изменяет состояние CreatingUpdatingState имеющее 4 поля:
+             *
+             * creatingQuestion - сейчас видно модальное окно создания вопроса
+             * creatingAnswer - сейчас видно модальное окно создания ответа
+             *
+             * editingQuestion - сейчас видно модальное окно изменения вопроса
+             * editingAnswer - сейчас видно модальное окно изменения ответа
+             *
+             * @param activePopup
+             */
+            updateCreatingUpdatingState (activePopup) {
+                for (let state in this.CreatingUpdatingState) {
+                    if (state == activePopup) {
+                        this.CreatingUpdatingState[state] = true;
+                    } else {
+                        this.CreatingUpdatingState[state] = false;
+                    }
+                }
             }
         }
     }
 </script>
 
 <style>
-    .box {
-        margin: auto;
-        position: center;
-        display: block;
-    }
-
     .edit-script {
         position: fixed;
         top: 150px;

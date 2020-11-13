@@ -158,7 +158,7 @@
             },
 
             editAnswer () {
-                this.$emit('click-edit-answer', this.answer.id);
+                this.$emit('click-answer-edit', this.answer.id);
             },
 
             /**
@@ -169,7 +169,7 @@
                     const res = await this.deleteAnswer({answerId: this.answer.id, questionId: this.question.id});
 
                     if (res) {
-                        this.$emit('delete-answer');
+                        this.$emit('answer-change');
                     }
                 }
             },

@@ -133,9 +133,8 @@
             v-for="answer in answers"
             :answerId="answer.id"
             :key="answer.id"
-            @click-edit-answer="clickEditAnswer(answer.id)"
+            @click-answer-edit="clickEditAnswer(answer.id)"
             @answer-change="changeAnswers"
-            @delete-answer="changeAnswers"
         />
     </g>
 </template>
@@ -213,18 +212,18 @@
             /**
              * в дальнейшем не понадобится
              * сейчас говорит родительскому компоненту чтобы вызвал модальное окно добавления ответа
-             * заберу тело функции (this.$emit('is-add-answer');)
+             * заберу тело функции (this.$emit('click-answer-add');)
              */
             // addAnswer () {
-            //     this.$emit('is-add-answer');
+            //     this.$emit('click-answer-add');
             // },
 
             /**
              * Говорит родительскому компоненту чтобы он вызвал редактирование ответа
-             * срабатывает по событию click-edit-answer вызываемое из компонента answer
+             * срабатывает по событию click-answer-edit вызываемое из компонента answer
              */
             clickEditAnswer (id) {
-                this.$emit('click-answer-update', id);
+                this.$emit('click-answer-edit', id);
             },
 
             /**
@@ -232,13 +231,14 @@
              *
              */
             editQuestion () {
-                this.$emit('click-edit-question');
+                this.$emit('click-question-edit');
             },
 
             /**
              * Событие вызывается из компонента answer
              * чтобы обновить данные о ответах здесь:
              * перерисовать линии
+             * todo: чтобы конкретный ответ обовлялся а не все
              *
              * @returns {Promise<void>}
              */
@@ -334,7 +334,7 @@
                 this.$refs.box.removeEventListener('mousemove', this.move);
             },
 
-
+            // for test
             addMove ({offsetX, offsetY}) {
                 console.log({offsetX, offsetY});
                 this.newPathCoord = `M ${offsetX} ${offsetY} L 0 0`;

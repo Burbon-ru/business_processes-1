@@ -12,9 +12,9 @@
                     v-for="question in questionsInCurrentScript"
                     :questionId="question.id"
                     :key="question.id"
-                    @click-edit-question="selectQuestion(question.id)"
-                    @click-answer-update="selectAnswer"
-                    @is-add-answer="selectCreateQuestion(question.id)"
+                    @click-question-edit="selectEditQuestion(question.id)"
+                    @click-answer-edit="selectEditAnswer"
+                    @click-answer-add="selectCreateQuestion(question.id)"
                 />
             </g>
         </svg>
@@ -117,25 +117,6 @@
             ]),
 
             /**
-             * Закрывает модальные окна
-             */
-            closeAllModal () {
-                for (let state in this.CreatingUpdatingState) {
-                    this.CreatingUpdatingState[state] = false;
-                }
-            },
-
-            /**
-             * Вызывает модальное окно изменения вопроса
-             *
-             * @param id
-             */
-            selectQuestion (id) {
-                this.currentQuestion = id;
-                this.updateCreatingUpdatingState('editingQuestion');
-            },
-
-            /**
              * Вызывает модальное окно создания вопроса
              *
              * @param id
@@ -146,13 +127,32 @@
             },
 
             /**
+             * Вызывает модальное окно изменения вопроса
+             *
+             * @param id
+             */
+            selectEditQuestion (id) {
+                this.currentQuestion = id;
+                this.updateCreatingUpdatingState('editingQuestion');
+            },
+
+            /**
              * Вызывает модальное окно изменения ответа
              *
              * @param id
              */
-            selectAnswer (id) {
+            selectEditAnswer (id) {
                 this.currentAnswer = id;
                 this.updateCreatingUpdatingState('editingAnswer');
+            },
+
+            /**
+             * Закрывает модальные окна
+             */
+            closeAllModal () {
+                for (let state in this.CreatingUpdatingState) {
+                    this.CreatingUpdatingState[state] = false;
+                }
             },
 
             /**

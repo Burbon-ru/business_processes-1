@@ -1,5 +1,10 @@
 <template>
-    <g class="q_a_wrapper">
+    <g
+        class="q_a_wrapper"
+        @mousedown="addDragOnWrapper"
+        @mouseup="addDropOnWrapper"
+        ref="addWr"
+    >
         <defs>
             <marker
                 id="arrow"
@@ -12,6 +17,7 @@
             </marker>
         </defs>
 
+        <!-- Пути от вопроса к ответам -->
         <path
             v-for="(pathCoords, key) in pathsCoords"
             :key="key"
@@ -23,38 +29,14 @@
         />
 
         <g
-            class="question_with_answer"
-            :id="question.id"
-            :transform="stylesCoords"
-            ref="box"
-            :style="cursor"
-            @mousedown="drag"
-            @mouseup="drop"
+            @mousedown="addDrag"
+            @mouseup="addDrop"
         >
-            <rect
-                class="question"
-                :id="question.id"
-                :class="{ selected: question.id == currentQuestion }"
-                width="200"
-                height="40"
-                fill="#fff"
-                stroke="#cfcfcf"
-                stroke-width="1"
-            />
-
-            <text
-                fill="#000"
-                y="24" x="30"
-            >
-                {{ question.name }} (ID: {{ question.id }})
-            </text>
-
             <circle
                 cy="40" cx="100" r="10"
                 stroke="#cfcfcf"
                 stroke-width="1"
                 fill="#fff"
-                @click="clickAddAnswer"
             />
             <path
                 d="M108.66,48.66h2.57a.51.51,0,0,0,.51-.51v-.34a.51.51,0,0,0-.51-.52h-2.57V44.73a.51.51,0,0,0-.51-.52h-.34a.52.52,0,0,0-.52.52v2.56h-2.56a.52.52,0,0,0-.52.52v.34a.51.51,0,0,0,.52.51h2.56v2.57a.51.51,0,0,0,.52.51h.34a.51.51,0,0,0,.51-.51Z"
@@ -64,7 +46,52 @@
                 width="80"
                 height="80"
                 class="question add-answer"
-                @click="addAnswer"
+            />
+        </g>
+
+        <!--
+        Группа:
+        прямоугольник, текст в нем,
+        иконки:
+            добавления ответа,
+            редактирования вопроса,
+            удаления вопроса и связанных с ним ответов
+        -->
+        <g
+            class="question_with_answer"
+            :id="question.id"
+            :transform="stylesCoords"
+            ref="box"
+            :style="cursor"
+        >
+            <g
+                @mousedown="drag"
+                @mouseup="drop"
+            >
+                <rect
+                    class="question"
+                    :id="question.id"
+                    width="200"
+                    height="40"
+                    fill="#fff"
+                    stroke="#cfcfcf"
+                    stroke-width="1"
+                />
+
+                <text
+                    fill="#000"
+                    y="24" x="30"
+                >
+                    {{ question.name }} (ID: {{ question.id }})
+                </text>
+            </g>
+
+            <path
+                :d="newPathCoord"
+                fill="transparent"
+                stroke="#4294ff"
+                stroke-width="1"
+                marker-end="url(#arrow)"
             />
 
             <circle
@@ -106,7 +133,7 @@
             v-for="answer in answers"
             :answerId="answer.id"
             :key="answer.id"
-            @click-edit-answer="selectAnswer(answer.id)"
+            @click-edit-answer="clickEditAnswer(answer.id)"
             @answer-change="changeAnswers"
             @delete-answer="changeAnswers"
         />
@@ -123,10 +150,11 @@
 
     export default {
         name: "question",
-        props: ['currentQuestion', 'questionId'],
+        props: ['questionId'],
         data: () => ({
             stylesCoords: '',
             pathsCoords: [],
+            newPathCoord: '',
             answers: [],
             question: {},
             editAnswer: false,
@@ -143,6 +171,12 @@
         components: {
             Answer
         },
+
+        /**
+         * получаю вопрос - присваиваю this.question
+         * получаю ответы вопроса - присваиваю this.answers
+         * создаю линии ко всем ответам - в this.pathsCoords
+         */
         async mounted () {
             this.question = await getQuestionById(this.questionId);
             this.question = this.question.data[0];
@@ -155,6 +189,8 @@
                     value: `M ${this.question.coords.x} ${this.question.coords.y} L ${answer.coords.x} ${answer.coords.y}`
                 });
             }
+
+            this.newPathCoord = `M 0 0 L 0 0`;
 
             if (this.question.coords) {
                 this.stylesCoords = `translate(${this.question.coords.x}, ${this.question.coords.y})`;
@@ -174,17 +210,21 @@
                 'deleteQuestion'
             ]),
 
-            addAnswer () {
-                this.$emit('click-question'); // зачем?
-                this.$emit('is-add-answer');
-            },
+            /**
+             * в дальнейшем не понадобится
+             * сейчас говорит родительскому компоненту чтобы вызвал модальное окно добавления ответа
+             * заберу тело функции (this.$emit('is-add-answer');)
+             */
+            // addAnswer () {
+            //     this.$emit('is-add-answer');
+            // },
 
-            selectAnswer (id) {
-                this.$emit('click-answer', id);
-            },
-
-            clickAddAnswer () {
-
+            /**
+             * Говорит родительскому компоненту чтобы он вызвал редактирование ответа
+             * срабатывает по событию click-edit-answer вызываемое из компонента answer
+             */
+            clickEditAnswer (id) {
+                this.$emit('click-answer-update', id);
             },
 
             /**
@@ -293,12 +333,46 @@
 
                 this.$refs.box.removeEventListener('mousemove', this.move);
             },
+
+
+            addMove ({offsetX, offsetY}) {
+                console.log({offsetX, offsetY});
+                this.newPathCoord = `M ${offsetX} ${offsetY} L 0 0`;
+            },
+
+            addDrag ({offsetX, offsetY}) {
+                this.dragOffsetX = offsetX - this.square.x;
+                this.dragOffsetY = offsetY - this.square.y;
+
+                this.$refs.add.addEventListener('mousemove', this.addMove);
+            },
+
+            addDrop (e) {
+                console.log('addDrop', e);
+                this.dragOffsetX = this.dragOffsetY = null;
+
+                this.$refs.add.removeEventListener('mousemove', this.addMove);
+            },
+
+            addDragOnWrapper ({offsetX, offsetY}) {
+                this.dragOffsetX = offsetX - this.square.x;
+                this.dragOffsetY = offsetY - this.square.y;
+
+                this.$refs.addWr.addEventListener('mousemove', this.addMove);
+            },
+
+            addDropOnWrapper (e) {
+                console.log('addDrop', e);
+                this.dragOffsetX = this.dragOffsetY = null;
+
+                this.$refs.addWr.removeEventListener('mousemove', this.addMove);
+            }
         }
     }
 </script>
 
 <style lang="scss">
-    .edit-question, .delete, .add-answer {
+    .edit-question, .delete, .add-answer, .edit-answer {
         cursor: pointer;
     }
 

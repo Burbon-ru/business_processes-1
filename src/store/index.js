@@ -15,6 +15,13 @@ export default new Vuex.Store({
         scripts: [],
         currentScriptId: 0,
         questions: [],
+
+        /**
+         * массив из полных объектов вопросов
+         * думаю это должен быть массив id-шников
+         * из EditScript в question передается только id
+         * и в question я получаю все данные
+         */
         questionsInCurrentScript: [],
         answers: [],
         answerStatuses: [],

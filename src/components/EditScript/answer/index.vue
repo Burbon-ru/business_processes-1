@@ -4,8 +4,6 @@
         :transform="stylesCoords"
         :id="answer.id"
         ref="box"
-        @mousedown="drag"
-        @mouseup="drop"
     >
         <defs>
             <marker id="arrow"  markerWidth="20" markerHeight="20" refX="10" refY="3" orient="auto" markerUnits="strokeWidth">
@@ -21,21 +19,26 @@
             marker-end="url(#arrow)"
         />
 
-        <rect
-            class="answer"
-            width="200"
-            height="40"
-            fill="#fff"
-            :stroke="blockColor"
-            stroke-width="2"
-        />
-
-        <text
-            x="20" y="24"
-            fill="#000"
+        <g
+            @mousedown="drag"
+            @mouseup="drop"
         >
-            {{ answer.name }}
-        </text>
+            <rect
+                class="answer"
+                width="200"
+                height="40"
+                fill="#fff"
+                :stroke="blockColor"
+                stroke-width="2"
+            />
+
+            <text
+                x="20" y="24"
+                fill="#000"
+            >
+                {{ answer.name }}
+            </text>
+        </g>
 
         <circle
             cy="0" cx="200" r="10"
@@ -49,7 +52,7 @@
             width="80" height="80" x="200"
             transform="translate(-70 -10) scale(1.3)"
             fill="#4294ff"
-            class="answer"
+            class="answer edit-answer"
         />
 
         <circle
@@ -65,7 +68,7 @@
             style="fill: #f00;"
             width="80"
             height="80"
-            class="question delete"
+            class="answer delete"
             @click="deleteA"
         />
     </g>

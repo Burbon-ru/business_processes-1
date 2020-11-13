@@ -12,9 +12,8 @@
                     v-for="question in questionsInCurrentScript"
                     :questionId="question.id"
                     :key="question.id"
-                    :currentQuestion="currentQuestion"
                     @click-edit-question="selectQuestion(question.id)"
-                    @click-answer="selectAnswer"
+                    @click-answer-update="selectAnswer"
                     @is-add-answer="selectCreateQuestion(question.id)"
                 />
             </g>

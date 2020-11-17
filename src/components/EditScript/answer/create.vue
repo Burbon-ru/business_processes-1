@@ -96,7 +96,7 @@
 
     export default {
         name: "createAnswer",
-        props: ['currentQuestion'],
+        props: ['currentQuestion', 'newAnswerCoords'],
         data: () => ({
             status: 0,
             name: '',
@@ -123,6 +123,7 @@
             },
             async submitAnswer () {
                 let objFormData = serializeFormByDomSelector('#create_answer_form');
+                objFormData.coords = this.newAnswerCoords;
 
                 let createdAnswer = await this.createAnswer(objFormData);
                 let updatedQuestion = await getQuestionById(this.currentQuestion);

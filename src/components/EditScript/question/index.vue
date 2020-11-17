@@ -1,9 +1,6 @@
 <template>
     <g
         class="q_a_wrapper"
-        @mousedown="addDragOnWrapper"
-        @mouseup="addDropOnWrapper"
-        ref="addWr"
     >
         <defs>
             <marker
@@ -27,27 +24,6 @@
             stroke-width="1"
             marker-end="url(#arrow)"
         />
-
-        <g
-            @mousedown="addDrag"
-            @mouseup="addDrop"
-        >
-            <circle
-                cy="40" cx="100" r="10"
-                stroke="#cfcfcf"
-                stroke-width="1"
-                fill="#fff"
-            />
-            <path
-                d="M108.66,48.66h2.57a.51.51,0,0,0,.51-.51v-.34a.51.51,0,0,0-.51-.52h-2.57V44.73a.51.51,0,0,0-.51-.52h-.34a.52.52,0,0,0-.52.52v2.56h-2.56a.52.52,0,0,0-.52.52v.34a.51.51,0,0,0,.52.51h2.56v2.57a.51.51,0,0,0,.52.51h.34a.51.51,0,0,0,.51-.51Z"
-                y="0" x="280"
-                transform="translate(-40 -22) scale(1.3)"
-                style="fill: #2f700f"
-                width="80"
-                height="80"
-                class="question add-answer"
-            />
-        </g>
 
         <!--
         Группа:
@@ -86,12 +62,21 @@
                 </text>
             </g>
 
-            <path
-                :d="newPathCoord"
-                fill="transparent"
-                stroke="#4294ff"
+            <circle
+                cy="40" cx="100" r="10"
+                stroke="#cfcfcf"
                 stroke-width="1"
-                marker-end="url(#arrow)"
+                fill="#fff"
+            />
+            <path
+                d="M108.66,48.66h2.57a.51.51,0,0,0,.51-.51v-.34a.51.51,0,0,0-.51-.52h-2.57V44.73a.51.51,0,0,0-.51-.52h-.34a.52.52,0,0,0-.52.52v2.56h-2.56a.52.52,0,0,0-.52.52v.34a.51.51,0,0,0,.52.51h2.56v2.57a.51.51,0,0,0,.52.51h.34a.51.51,0,0,0,.51-.51Z"
+                y="0" x="280"
+                transform="translate(-40 -22) scale(1.3)"
+                style="fill: #2f700f"
+                width="80"
+                height="80"
+                class="question add-answer"
+                @mousedown="addAnswerMousedown"
             />
 
             <circle
@@ -189,8 +174,6 @@
                 });
             }
 
-            this.newPathCoord = `M 0 0 L 0 0`;
-
             if (this.question.coords) {
                 this.stylesCoords = `translate(${this.question.coords.x}, ${this.question.coords.y})`;
             }
@@ -210,13 +193,11 @@
             ]),
 
             /**
-             * в дальнейшем не понадобится
-             * сейчас говорит родительскому компоненту чтобы вызвал модальное окно добавления ответа
-             * заберу тело функции (this.$emit('click-answer-add');)
+             * событие передает родительскому компоненту
              */
-            // addAnswer () {
-            //     this.$emit('click-answer-add');
-            // },
+            addAnswerMousedown (e) {
+                this.$emit('click-answer-add-mousedown', e, this.question.id);
+            },
 
             /**
              * Говорит родительскому компоненту чтобы он вызвал редактирование ответа
@@ -270,11 +251,11 @@
              *
              * вызывается в событии drop
              */
-            async dragEnd (e) {
+            async dragEnd ({offsetX, offsetY}) {
                 try {
                     const coords = {
-                        x: e.offsetX - this.square.x,
-                        y: e.offsetY - this.square.y
+                        x: offsetX - this.square.x,
+                        y: offsetY - this.square.y
                     };
 
                     let updatedQuestion = await this.updateQuestion({
@@ -302,7 +283,10 @@
             move ({offsetX, offsetY}) {
                 for (let answer of this.answers) {
                     this.pathsCoords = this.pathsCoords.map(el => {
-                        el.value = `M ${offsetX} ${offsetY} L ${answer.coords.x} ${answer.coords.y}`;
+                        if (el.id == answer.id) {
+                            el.value = `M ${offsetX} ${offsetY} L ${answer.coords.x} ${answer.coords.y}`;
+                        }
+
                         return el;
                     });
                 }
@@ -328,44 +312,8 @@
              */
             drop (e) {
                 this.dragOffsetX = this.dragOffsetY = null;
-
                 this.dragEnd(e);
-
                 this.$refs.box.removeEventListener('mousemove', this.move);
-            },
-
-            // for test
-            addMove ({offsetX, offsetY}) {
-                console.log({offsetX, offsetY});
-                this.newPathCoord = `M ${offsetX} ${offsetY} L 0 0`;
-            },
-
-            addDrag ({offsetX, offsetY}) {
-                this.dragOffsetX = offsetX - this.square.x;
-                this.dragOffsetY = offsetY - this.square.y;
-
-                this.$refs.add.addEventListener('mousemove', this.addMove);
-            },
-
-            addDrop (e) {
-                console.log('addDrop', e);
-                this.dragOffsetX = this.dragOffsetY = null;
-
-                this.$refs.add.removeEventListener('mousemove', this.addMove);
-            },
-
-            addDragOnWrapper ({offsetX, offsetY}) {
-                this.dragOffsetX = offsetX - this.square.x;
-                this.dragOffsetY = offsetY - this.square.y;
-
-                this.$refs.addWr.addEventListener('mousemove', this.addMove);
-            },
-
-            addDropOnWrapper (e) {
-                console.log('addDrop', e);
-                this.dragOffsetX = this.dragOffsetY = null;
-
-                this.$refs.addWr.removeEventListener('mousemove', this.addMove);
             }
         }
     }

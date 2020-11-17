@@ -6,6 +6,7 @@
             width="100%"
             height="100%"
             @dblclick="createQuestion"
+            ref="dynamicLine"
         >
             <g id="transform-wrapper" transform="scale(1 1)" >
                 <question
@@ -14,9 +15,18 @@
                     :key="question.id"
                     @click-question-edit="selectEditQuestion(question.id)"
                     @click-answer-edit="selectEditAnswer"
-                    @click-answer-add="selectCreateQuestion(question.id)"
+                    @click-answer-add-mousedown="drag"
                 />
             </g>
+
+            <path
+                :d="pathCoords"
+                :transform="stylesCoords"
+                fill="transparent"
+                stroke="#4294ff"
+                stroke-width="1"
+                marker-end="url(#arrow)"
+            />
         </svg>
 
         <!-- Компонент-модальное окно создания вопроса -->
@@ -37,6 +47,7 @@
         <create-answer
             v-if="CreatingUpdatingState.creatingAnswer"
             :currentQuestion="currentQuestion"
+            :newAnswerCoords="newAnswerCoords"
             @close-modal="closeAllModal"
         />
 
@@ -85,7 +96,12 @@
                 x: 25,
                 y: 25,
             },
-            newQuestionCoords: {}
+            newQuestionCoords: {},
+            newAnswerCoords: {},
+            dragOffsetX: null,
+            dragOffsetY: null,
+            pathCoords: '',
+            stylesCoords: ''
         }),
         computed: {
             ...mapGetters([
@@ -97,19 +113,6 @@
             this.$store.dispatch('setCurrentScriptId', this.$route.params.id);
             this.$store.dispatch('setQuestionsInCurrentScript');
         },
-        watch: {
-            /**
-             * работает ли if я незнаю.
-             * идея в обновлении данных
-             * но без if дофига запросов в базу
-             * todo: разобраться с этим
-             */
-            questionsInCurrentScript (val) {
-                if (val !== this.questionsInCurrentScript) {
-                    this.$store.dispatch('setQuestionsInCurrentScript');
-                }
-            }
-        },
         methods: {
             ...mapActions([
                 'setCurrentScriptId',
@@ -117,12 +120,56 @@
             ]),
 
             /**
-             * Вызывает модальное окно создания вопроса
+             * эмитится из компонента question
+             */
+            drag ({offsetX, offsetY}, questionId) {
+                this.currentQuestion = questionId;
+
+                this.dragOffsetX = offsetX - this.square.x;
+                this.dragOffsetY = offsetY - this.square.y;
+
+                this.$refs.dynamicLine.addEventListener('mousemove', this.move);
+                this.$refs.dynamicLine.addEventListener('mouseup', this.drop);
+            },
+
+            /**
+             * вызывается в методе drag
+             */
+            move ({offsetX, offsetY}) {
+                this.pathCoords = `M ${this.dragOffsetX - offsetX} ${this.dragOffsetY - offsetY} L 0 0`;
+                this.stylesCoords = `translate(${offsetX}, ${offsetY})`;
+            },
+
+            /**
+             * метод вызывается на событии mouseup
+             * которое повешено на элемент this.$refs.dynamicLine
+             * в методе drag
+             */
+            drop ({offsetX, offsetY}) {
+                this.newAnswerCoords = {
+                    x: offsetX - this.square.x,
+                    y: offsetY - this.square.y
+                };
+
+                this.dragOffsetX = this.dragOffsetY = null;
+                this.dragEnd();
+                this.$refs.dynamicLine.removeEventListener('mousemove', this.move);
+            },
+
+            /**
+             * вызовет модалку для создания ответа
+             * в событии drop
+             */
+            dragEnd () {
+                this.selectCreateAnswer();
+            },
+
+            /**
+             * Вызывает модальное окно создания ответа
              *
              * @param id
              */
-            selectCreateQuestion (id) {
-                this.currentQuestion = id;
+            selectCreateAnswer () {
                 this.updateCreatingUpdatingState('creatingAnswer');
             },
 
@@ -162,10 +209,10 @@
              *
              * @param e {MouseEvent}
              */
-            createQuestion (e) {
+            createQuestion ({offsetX, offsetY}) {
                 this.newQuestionCoords = {
-                    x: e.offsetX - this.square.x,
-                    y: e.offsetY - this.square.y,
+                    x: offsetX - this.square.x,
+                    y: offsetY - this.square.y,
                 };
 
                 this.updateCreatingUpdatingState('creatingQuestion');
@@ -191,7 +238,20 @@
                     }
                 }
             }
-        }
+        },
+        watch: {
+            /**
+             * работает ли if я незнаю.
+             * идея в обновлении данных
+             * но без if дофига запросов в базу
+             * todo: разобраться с этим
+             */
+            questionsInCurrentScript (val) {
+                if (val !== this.questionsInCurrentScript) {
+                    this.$store.dispatch('setQuestionsInCurrentScript');
+                }
+            }
+        },
     }
 </script>
 
